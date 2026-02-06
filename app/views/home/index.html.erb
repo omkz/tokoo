@@ -1,2 +1,297 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Welcome to Tokoo
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Shop with confidence using secure passwordless authentication and two-factor security.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Search & Filter Section -->
+<section class="bg-white border-b">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row gap-4 items-end">
+      <!-- Search Input -->
+      <div class="flex-1">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Search Products</label>
+        <div class="relative">
+          <svg class="absolute left-3 top-3 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="search" placeholder="Search by product name..." class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="w-full md:w-48">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+        <select id="category" class="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="home">Home & Garden</option>
+          <option value="books">Books</option>
+          <option value="sports">Sports</option>
+        </select>
+      </div>
+
+      <!-- Price Range -->
+      <div class="w-full md:w-48">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
+        <input type="number" id="maxPrice" placeholder="$999.99" class="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <!-- Search Button -->
+      <button class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        Search
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Products Grid -->
+<section class="bg-gray-50 py-12 md:py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-3xl font-bold text-gray-900">Featured Products</h2>
+      <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">View All →</a>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Product 1 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Electronics
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Wireless Headphones</h3>
+          <p class="text-sm text-gray-600 mb-4">Premium sound quality with noise cancellation</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$129.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18a2 2 0 012 2v14a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Fashion
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Designer Watch</h3>
+          <p class="text-sm text-gray-600 mb-4">Classic timepiece for any occasion</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$199.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Home
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Smart Coffee Maker</h3>
+          <p class="text-sm text-gray-600 mb-4">WiFi-enabled brewing perfection</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$89.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Books
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Tech Innovation Guide</h3>
+          <p class="text-sm text-gray-600 mb-4">Learn modern development practices</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$34.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Sports
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Fitness Tracker</h3>
+          <p class="text-sm text-gray-600 mb-4">Monitor your health 24/7</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$79.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Electronics
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">USB-C Power Bank</h3>
+          <p class="text-sm text-gray-600 mb-4">Fast charging for all your devices</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$44.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-pink-100 text-pink-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Fashion
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Sunglasses UV400</h3>
+          <p class="text-sm text-gray-600 mb-4">Stylish protection for outdoor</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$59.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
+        <div class="bg-gray-200 h-48 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="p-4">
+          <div class="inline-block bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+            Home
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">LED Desk Lamp</h3>
+          <p class="text-sm text-gray-600 mb-4">Adjustable brightness & color</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-gray-900">$49.99</p>
+            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+      Shop with Confidence
+    </h2>
+    <p class="text-xl text-blue-100 mb-8">
+      Secure passwordless login & two-factor authentication for maximum protection.
+    </p>
+    <% if authenticated? %>
+      <a href="#" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+        Continue Shopping
+      </a>
+    <% else %>
+      <a href="<%= new_session_path %>" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+        Sign In to Shop
+      </a>
+    <% end %>
+  </div>
+</section>
+
+<script>
+  // Simple client-side search/filter (static demo)
+  document.getElementById('search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    // In a real app, this would filter actual products
+    console.log('Search:', searchTerm);
+  });
+
+  document.getElementById('category').addEventListener('change', function(e) {
+    console.log('Category:', e.target.value);
+  });
+
+  document.getElementById('maxPrice').addEventListener('input', function(e) {
+    console.log('Max Price:', e.target.value);
+  });
+</script>
