@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_05_131923) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_05_132406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,8 +28,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_131923) do
     t.string "email_address", null: false
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
+    t.string "webauthn_id"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "webauthn_credentials", force: :cascade do |t|
+    t.integer "authentication_factor", limit: 2, null: false
+    t.datetime "created_at", null: false
+    t.string "external_id"
+    t.string "nickname"
+    t.string "public_key"
+    t.bigint "sign_count"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["external_id"], name: "index_webauthn_credentials_on_external_id", unique: true
+    t.index ["user_id"], name: "index_webauthn_credentials_on_user_id"
+  end
+
   add_foreign_key "sessions", "users"
+  add_foreign_key "webauthn_credentials", "users"
 end

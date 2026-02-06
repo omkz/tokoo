@@ -1,4 +1,20 @@
 Rails.application.routes.draw do
+  get "home/index"
+  resource :webauthn_session, only: [ :create, :destroy ] do
+    post :get_options, on: :collection
+  end
+
+  resources :passkeys, only: [ :new, :create, :destroy ] do
+    post :create_options, on: :collection
+  end
+
+  resources :second_factor_webauthn_credentials, only: [ :new, :create, :destroy ] do
+    post :create_options, on: :collection
+  end
+
+  resource :second_factor_authentication, only: [ :new, :create ] do
+    post :get_options, on: :collection
+  end
   resource :session
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,5 +28,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

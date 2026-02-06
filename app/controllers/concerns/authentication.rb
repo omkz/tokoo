@@ -49,4 +49,8 @@ module Authentication
       Current.session.destroy
       cookies.delete(:session_id)
     end
+
+    def require_no_authentication
+      redirect_to root_path if find_session_by_cookie
+    end
 end

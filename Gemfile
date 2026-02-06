@@ -54,6 +54,8 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "webauthn-rails", "~> 0.1.2"
+  gem "webauthn", "~> 3.4"
 end
 
 group :development do

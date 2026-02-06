@@ -6,3 +6,6 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import WebauthnCredentialsController from "./webauthn_credentials_controller"
+application.register("webauthn-credentials", WebauthnCredentialsController)
