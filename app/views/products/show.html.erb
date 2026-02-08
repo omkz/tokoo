@@ -75,8 +75,8 @@
                     <div class="flex flex-wrap gap-3">
                       <% option.product_option_values.each do |value| %>
                         <label class="group relative flex items-center justify-center rounded-xl border py-3 px-6 text-sm font-semibold uppercase hover:bg-gray-50 focus:outline-none cursor-pointer border-gray-200 transition-all hover:border-blue-500 hover:shadow-sm">
-                          <input type="radio" name="<%= option.name.parameterize %>" value="<%= value.name %>" class="sr-only">
-                          <span class="text-gray-900"><%= value.name %></span>
+                          <input type="radio" name="<%= option.name.parameterize %>" value="<%= value.value %>" class="sr-only">
+                          <span class="text-gray-900"><%= value.value %></span>
                         </label>
                       <% end %>
                     </div>
