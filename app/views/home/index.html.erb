@@ -69,7 +69,6 @@
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <% @categories.each do |category| %>
           <div data-animate class="group relative bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
@@ -79,7 +78,6 @@
             </div>
           </div>
         <% end %>
-      </div>
       </div>
     </div>
   </section>
@@ -98,8 +96,8 @@
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <% if @featured_products.any? %>
-          <% @featured_products.each do |product| %>
+        <% if @products.any? %>
+          <% @products.each do |product| %>
             <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
               <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
                 <% if product.primary_image %>
@@ -133,8 +131,8 @@
             <svg class="h-20 w-20 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">No Featured Products Yet</h3>
-            <p class="text-gray-600">Please add and feature products in the admin dashboard to see them here.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">No Products Yet</h3>
+            <p class="text-gray-600">Please add products in the admin dashboard to see them here.</p>
           </div>
         <% end %>
       </div>

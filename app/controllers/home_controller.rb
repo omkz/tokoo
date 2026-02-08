@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @featured_products = Product.featured.limit(8)
-    @categories = Category.all.limit(4)
+    @products = Product.active.limit(8)
+    @categories = Category.active.ordered.limit(8)
   end
 end
