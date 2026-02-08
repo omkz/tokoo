@@ -1,6 +1,7 @@
 class ProductVariant < ApplicationRecord
   belongs_to :product
   has_many :variant_option_values, dependent: :destroy
+  accepts_nested_attributes_for :variant_option_values, allow_destroy: true
   has_many :product_option_values, through: :variant_option_values
   
   has_many :order_items, dependent: :restrict_with_error

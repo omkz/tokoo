@@ -11,6 +11,10 @@ class Product < ApplicationRecord
   has_many :product_analytics, dependent: :destroy
   has_many :product_events, dependent: :destroy
 
+  accepts_nested_attributes_for :product_images, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :product_options, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :product_variants, allow_destroy: true, reject_if: :all_blank
+
   validates :name, :slug, :sku, :price, presence: true
   validates :slug, :sku, uniqueness: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
