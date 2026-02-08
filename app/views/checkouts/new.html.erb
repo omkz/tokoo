@@ -1,0 +1,153 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+
+  <%= form_with model: @order, url: checkouts_path, data: { turbo: false } do |f| %>
+    <% if @order.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+        <h2 class="text-red-700 font-bold mb-2">
+          <%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:
+        </h2>
+        <ul class="list-disc list-inside text-red-600">
+          <% @order.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Customer Information -->
+      <div class="space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
+          <div class="space-y-4">
+            <div>
+              <%= f.label :customer_email, "Email", class: "block text-sm font-medium text-gray-700" %>
+              <%= f.email_field :customer_email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+            </div>
+            <div>
+              <%= f.label :customer_name, "Full Name", class: "block text-sm font-medium text-gray-700" %>
+              <%= f.text_field :customer_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+            </div>
+            <div>
+              <%= f.label :customer_phone, "Phone Number", class: "block text-sm font-medium text-gray-700" %>
+              <%= f.telephone_field :customer_phone, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-4">Shipping Address</h2>
+          <%= f.fields_for :order_addresses, @shipping_address do |sa| %>
+            <%= sa.hidden_field :address_type, value: 'shipping' %>
+            <div class="space-y-4">
+              <div>
+                <%= sa.label :full_name, "Recipient Name", class: "block text-sm font-medium text-gray-700" %>
+                <%= sa.text_field :full_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+              </div>
+              <div>
+                <%= sa.label :address_line1, "Address Line 1", class: "block text-sm font-medium text-gray-700" %>
+                <%= sa.text_field :address_line1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+              </div>
+              <div>
+                <%= sa.label :address_line2, "Address Line 2 (Optional)", class: "block text-sm font-medium text-gray-700" %>
+                <%= sa.text_field :address_line2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <%= sa.label :city, "City", class: "block text-sm font-medium text-gray-700" %>
+                  <%= sa.text_field :city, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+                </div>
+                <div>
+                  <%= sa.label :state_province, "State/Province", class: "block text-sm font-medium text-gray-700" %>
+                  <%= sa.text_field :state_province, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <%= sa.label :postal_code, "Postal Code", class: "block text-sm font-medium text-gray-700" %>
+                  <%= sa.text_field :postal_code, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+                </div>
+                <div>
+                  <%= sa.label :country, "Country", class: "block text-sm font-medium text-gray-700" %>
+                  <%= sa.text_field :country, value: "Indonesia", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", required: true %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Order Summary & Shipping Method -->
+      <div class="space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-4">Shipping Method</h2>
+          <div class="space-y-4">
+            <% if @shipping_methods.any? %>
+              <% @shipping_methods.each do |method| %>
+                <div class="flex items-center">
+                  <%= radio_button_tag "order[shipping_method_id]", method.id, false, class: "h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500", required: true %>
+                  <%= label_tag "order_shipping_method_id_#{method.id}", class: "ml-3 block text-sm font-medium text-gray-700 flex justify-between w-full" do %>
+                    <span><%= method.name %></span>
+                    <span class="text-gray-500"><%= number_to_currency(method.price) %></span>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="text-sm text-gray-500">No shipping methods available.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow bg-gray-50">
+          <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+          <div class="flow-root">
+            <ul role="list" class="-my-4 divide-y divide-gray-200">
+              <% @cart.cart_items.each do |item| %>
+                <li class="flex py-4">
+                  <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <% if item.product.images.attached? %>
+                       <%= image_tag item.product.images.first, class: "h-full w-full object-cover object-center" %>
+                    <% else %>
+                       <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-400">No Img</div>
+                    <% end %>
+                  </div>
+                  <div class="ml-4 flex flex-1 flex-col">
+                    <div>
+                      <div class="flex justify-between text-base font-medium text-gray-900">
+                        <h3><%= item.product.name %></h3>
+                        <p class="ml-4"><%= number_to_currency(item.subtotal) %></p>
+                      </div>
+                      <p class="mt-1 text-sm text-gray-500"><%= item.product_variant&.name %></p>
+                    </div>
+                    <div class="flex flex-1 items-end justify-between text-sm">
+                      <p class="text-gray-500">Qty <%= item.quantity %></p>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="border-t border-gray-200 mt-6 pt-4 space-y-2">
+            <div class="flex justify-between text-base font-medium text-gray-900">
+              <p>Subtotal</p>
+              <p><%= number_to_currency(@cart.total_price) %></p>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <p>Shipping</p>
+              <p>Calculated at next step</p>
+            </div>
+            <div class="flex justify-between text-base font-bold text-gray-900 pt-2 border-t mt-2">
+              <p>Total</p>
+              <p><%= number_to_currency(@cart.total_price) %></p>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <%= f.submit "Place Order", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

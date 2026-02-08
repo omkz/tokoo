@@ -9,6 +9,8 @@ class Order < ApplicationRecord
   has_many :order_coupons, dependent: :destroy
   has_many :coupons, through: :order_coupons
 
+  accepts_nested_attributes_for :order_addresses
+
   validates :order_number, presence: true, uniqueness: true
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 

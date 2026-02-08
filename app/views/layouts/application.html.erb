@@ -23,8 +23,9 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
+  <body data-controller="cart">
     <%= render "layouts/navbar" %>
+    <%= render "layouts/mini_cart" %>
     <%= yield %>
   </body>
 </html>

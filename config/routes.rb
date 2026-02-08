@@ -39,6 +39,10 @@ Rails.application.routes.draw do
 
   get "products/:slug", to: "products#show", as: :product_detail
 
+  resource :cart, only: [ :show ]
+  resources :cart_items, only: [ :create, :update, :destroy ]
+  resources :checkouts, only: [ :new, :create, :show ]
+
   # Defines the root path route ("/")
   root "home#index"
 end

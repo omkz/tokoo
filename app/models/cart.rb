@@ -9,6 +9,6 @@ class Cart < ApplicationRecord
   end
 
   def total_price
-    cart_items.joins(:product).sum('cart_items.quantity * products.price')
+    cart_items.sum(&:subtotal)
   end
 end

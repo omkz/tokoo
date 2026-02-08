@@ -55,7 +55,7 @@
 
           <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-4"><%= @product.name %></h1>
           
-          <div class="mt-3">
+          <div class="mt-3" data-variant-selector-target="price">
             <h2 class="sr-only">Product information</h2>
             <p class="text-4xl font-bold text-blue-600"><%= number_to_currency(@product.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
           </div>
@@ -65,7 +65,10 @@
             <div class="text-base text-gray-700 leading-relaxed"><%= @product.description.presence || @product.short_description %></div>
           </div>
 
-          <form class="mt-10">
+          <%= form_with url: cart_items_path, method: :post, class: "mt-10", data: { controller: "variant-selector", variant_selector_variants_value: @product.product_variants.map { |v| { id: v.id, price: v.price, option_values: v.product_option_values.map(&:value) } }.to_json } do |f| %>
+            <%= f.hidden_field :product_id, value: @product.id %>
+            <%= f.hidden_field :variant_id, value: "", data: { variant_selector_target: "variantId" } %>
+            
             <!-- Varian Options -->
             <% if @product.product_options.any? %>
               <div class="space-y-8">
@@ -73,9 +76,9 @@
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4"><%= option.name %></h3>
                     <div class="flex flex-wrap gap-3">
-                      <% option.product_option_values.each do |value| %>
+                      <% option.product_option_values.each_with_index do |value, index| %>
                         <label class="group relative flex items-center justify-center rounded-xl border py-3 px-6 text-sm font-semibold uppercase hover:bg-gray-50 focus:outline-none cursor-pointer border-gray-200 transition-all hover:border-blue-500 hover:shadow-sm">
-                          <input type="radio" name="<%= option.name.parameterize %>" value="<%= value.value %>" class="sr-only">
+                          <%= radio_button_tag "option_#{option.id}", value.value, false, class: "sr-only", data: { action: "change->variant-selector#select" } %>
                           <span class="text-gray-900"><%= value.value %></span>
                         </label>
                       <% end %>
@@ -86,9 +89,9 @@
             <% end %>
 
             <div class="mt-10 flex flex-col sm:flex-row gap-4">
-              <button type="submit" class="flex-1 flex items-center justify-center px-8 py-4 bg-blue-600 border border-transparent rounded-2xl text-lg font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover-lift shadow-glow">
+              <%= f.button type: :submit, class: "flex-1 flex items-center justify-center px-8 py-4 bg-blue-600 border border-transparent rounded-2xl text-lg font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover-lift shadow-glow", data: { variant_selector_target: "button" } do %>
                 Add to Cart
-              </button>
+              <% end %>
               <button type="button" class="flex-1 flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-600 rounded-2xl text-lg font-bold text-blue-600 hover:bg-blue-50 focus:outline-none transition-all hover-lift">
                 Buy Now
               </button>
@@ -108,7 +111,7 @@
                 Free Delivery
               </div>
             </div>
-          </form>
+          <% end %>
         </div>
       </div>
     </div>

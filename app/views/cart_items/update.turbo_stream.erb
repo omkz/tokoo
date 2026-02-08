@@ -1,0 +1,54 @@
+<%= turbo_stream.replace "cart-items-list" do %>
+  <ul role="list" class="-my-6 divide-y divide-gray-200" id="cart-items-list">
+    <% if current_cart.cart_items.any? %>
+      <% current_cart.cart_items.each do |item| %>
+        <li class="flex py-6">
+          <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 p-2">
+            <% if item.product.primary_image %>
+              <img src="<%= item.product.primary_image.url %>" alt="<%= item.product.name %>" class="h-full w-full object-contain">
+            <% end %>
+          </div>
+
+          <div class="ml-4 flex flex-1 flex-col">
+            <div>
+              <div class="flex justify-between text-base font-bold text-gray-900">
+                <h3><%= item.product.name %></h3>
+                <p class="ml-4"><%= number_to_currency(item.subtotal, unit: "Rp", precision: 0, delimiter: ".") %></p>
+              </div>
+              <% if item.product_variant %>
+                <p class="mt-1 text-sm text-gray-500"><%= item.product_variant.variant_option_values.map { |v| v.product_option_value.value }.join(" / ") %></p>
+              <% end %>
+            </div>
+            <div class="flex flex-1 items-end justify-between text-sm">
+              <p class="text-gray-500">Qty <%= item.quantity %></p>
+
+              <div class="flex">
+                <%= button_to cart_item_path(item), method: :delete, class: "font-medium text-blue-600 hover:text-blue-500", form: { data: { turbo_confirm: "Remove this item?" } } do %>
+                  Remove
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="py-12 text-center">
+        <p class="text-gray-500">Your cart is empty.</p>
+        <%= link_to "Start Shopping", root_path, class: "mt-4 inline-block text-blue-600 font-bold" %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= turbo_stream.replace "mini-cart-subtotal" do %>
+  <div class="flex justify-between text-base font-bold text-gray-900" id="mini-cart-subtotal">
+    <p>Subtotal</p>
+    <p><%= number_to_currency(current_cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "navbar-cart-count" do %>
+  <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full group-hover:scale-110 transition-transform" id="navbar-cart-count">
+    <%= current_cart.total_items %>
+  </span>
+<% end %>
