@@ -1,0 +1,138 @@
+<div class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumbs -->
+    <nav class="flex mb-8 text-sm font-medium text-gray-500" aria-label="Breadcrumb">
+      <ol class="flex items-center space-x-2">
+        <li><%= link_to "Home", root_path, class: "hover:text-blue-600 transition-colors" %></li>
+        <li>
+          <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-14.14L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </li>
+        <li class="text-gray-900 font-bold"><%= @product.name %></li>
+      </ol>
+    </nav>
+
+    <div class="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-start">
+      <!-- Image Gallery -->
+      <div class="flex flex-col">
+        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-3xl bg-white shadow-xl border border-gray-100 p-8 group">
+          <% if @product.primary_image %>
+            <img src="<%= @product.primary_image.url %>" alt="<%= @product.name %>" class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-110">
+          <% else %>
+            <div class="flex items-center justify-center h-full text-gray-400 italic">No image available</div>
+          <% end %>
+        </div>
+        
+        <!-- Thumbnail Grid (If multiple images) -->
+        <% if @product.product_images.count > 1 %>
+          <div class="mt-6 grid grid-cols-4 gap-4">
+            <% @product.product_images.each do |image| %>
+              <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-xl bg-white border border-gray-100 cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all p-2">
+                <img src="<%= image.url %>" class="h-full w-full object-contain">
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Product Info -->
+      <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-3 mb-4">
+            <% if @product.created_at > 7.days.ago %>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider">New Arrival</span>
+            <% end %>
+            <div class="flex items-center text-yellow-400">
+              <% 5.times do %>
+                <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              <% end %>
+              <span class="ml-2 text-sm text-gray-500 font-medium">(4.9 • 120 reviews)</span>
+            </div>
+          </div>
+
+          <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-4"><%= @product.name %></h1>
+          
+          <div class="mt-3">
+            <h2 class="sr-only">Product information</h2>
+            <p class="text-4xl font-bold text-blue-600"><%= number_to_currency(@product.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="sr-only">Description</h3>
+            <div class="text-base text-gray-700 leading-relaxed"><%= @product.description.presence || @product.short_description %></div>
+          </div>
+
+          <form class="mt-10">
+            <!-- Varian Options -->
+            <% if @product.product_options.any? %>
+              <div class="space-y-8">
+                <% @product.product_options.each do |option| %>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4"><%= option.name %></h3>
+                    <div class="flex flex-wrap gap-3">
+                      <% option.product_option_values.each do |value| %>
+                        <label class="group relative flex items-center justify-center rounded-xl border py-3 px-6 text-sm font-semibold uppercase hover:bg-gray-50 focus:outline-none cursor-pointer border-gray-200 transition-all hover:border-blue-500 hover:shadow-sm">
+                          <input type="radio" name="<%= option.name.parameterize %>" value="<%= value.name %>" class="sr-only">
+                          <span class="text-gray-900"><%= value.name %></span>
+                        </label>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="mt-10 flex flex-col sm:flex-row gap-4">
+              <button type="submit" class="flex-1 flex items-center justify-center px-8 py-4 bg-blue-600 border border-transparent rounded-2xl text-lg font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover-lift shadow-glow">
+                Add to Cart
+              </button>
+              <button type="button" class="flex-1 flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-600 rounded-2xl text-lg font-bold text-blue-600 hover:bg-blue-50 focus:outline-none transition-all hover-lift">
+                Buy Now
+              </button>
+            </div>
+            
+            <div class="mt-6 flex items-center justify-center gap-8 text-sm text-gray-500 font-medium border-t border-gray-100 pt-6">
+              <div class="flex items-center gap-2">
+                <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                In Stock
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Free Delivery
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <% if @related_products.any? %>
+      <div class="mt-24">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">You May Also Like</h2>
+        <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+          <% @related_products.each do |related| %>
+            <%= link_to product_detail_path(related.slug), class: "group relative" do %>
+              <div class="relative h-72 w-full overflow-hidden rounded-2xl bg-white p-4 border border-gray-100 transition-shadow hover:shadow-xl">
+                <% if related.primary_image %>
+                  <img src="<%= related.primary_image.url %>" class="h-full w-full object-contain object-center group-hover:scale-105 transition-transform">
+                <% end %>
+              </div>
+              <div class="mt-4">
+                <h3 class="text-sm font-bold text-gray-900"><%= related.name %></h3>
+                <p class="mt-1 text-lg font-bold text-blue-600"><%= number_to_currency(related.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

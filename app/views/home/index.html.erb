@@ -98,7 +98,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <% if @products.any? %>
           <% @products.each do |product| %>
-            <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+            <%= link_to product_detail_path(product.slug), data: { animate: true }, class: "bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group" do %>
               <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
                 <% if product.primary_image %>
                   <img src="<%= product.primary_image.url %>" class="product-image h-full w-full object-contain" alt="<%= product.name %>">
@@ -116,14 +116,14 @@
                 <p class="text-gray-600 mb-4 text-sm"><%= product.short_description&.truncate(80) %></p>
                 <div class="flex items-center justify-between">
                   <p class="text-3xl font-bold text-gray-900"><%= number_to_currency(product.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
-                  <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                  <div class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                  </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            <% end %>
           <% end %>
         <% else %>
           <!-- Empty State -->
