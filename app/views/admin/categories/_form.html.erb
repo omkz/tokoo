@@ -1,0 +1,56 @@
+<%= form_with(model: [:admin, category], class: "space-y-6") do |f| %>
+  <% if category.errors.any? %>
+    <div class="p-4 bg-red-50 border border-red-200 rounded-xl mb-6">
+      <h4 class="text-red-800 font-bold mb-2"><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h4>
+      <ul class="list-disc list-inside text-red-700 text-sm">
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2">
+      <%= f.label :name, class: "block text-sm font-bold text-slate-700" %>
+      <%= f.text_field :name, placeholder: "e.g., Electronics", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :slug, class: "block text-sm font-bold text-slate-700" %>
+      <%= f.text_field :slug, placeholder: "e.g., electronics", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :description, class: "block text-sm font-bold text-slate-700" %>
+    <%= f.text_area :description, rows: 4, placeholder: "Describe this category...", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2">
+      <%= f.label :parent_id, "Parent Category", class: "block text-sm font-bold text-slate-700" %>
+      <%= f.collection_select :parent_id, Category.where.not(id: category.id), :id, :name, { include_blank: "None (Top Level)" }, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :position, class: "block text-sm font-bold text-slate-700" %>
+      <%= f.number_field :position, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :image_url, class: "block text-sm font-bold text-slate-700" %>
+    <%= f.text_field :image_url, placeholder: "https://example.com/image.jpg", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" %>
+  </div>
+
+  <div class="flex items-center space-x-2 py-2">
+    <%= f.check_box :active, class: "w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 transition" %>
+    <%= f.label :active, "Active and visible on storefront", class: "text-sm font-medium text-slate-700" %>
+  </div>
+
+  <div class="pt-6 border-t border-slate-100 flex justify-end space-x-4">
+    <a href="<%= admin_categories_path %>" class="px-6 py-2 border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition">Cancel</a>
+    <%= f.submit yield(:button_text), class: "px-6 py-2 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
+  </div>
+<% end %>

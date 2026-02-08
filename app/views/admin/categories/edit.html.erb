@@ -1,0 +1,11 @@
+<% content_for :title, "Edit Category" %>
+<% content_for :button_text, "Save Changes" %>
+
+<div class="max-w-3xl mx-auto glass-card p-8">
+  <div class="mb-8">
+    <h3 class="text-xl font-bold">Edit Category: <%= @category.name %></h3>
+    <p class="text-sm text-slate-500">Update the details and visibility of this category.</p>
+  </div>
+
+  <%= render "form", category: @category %>
+</div>

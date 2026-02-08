@@ -1,0 +1,128 @@
+<% content_for :title, "Order Details" %>
+
+<div class="mb-8 flex items-center space-x-4">
+  <a href="<%= admin_orders_path %>" class="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-indigo-600 transition">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+  </a>
+  <div>
+    <h3 class="text-2xl font-bold text-slate-800"><%= @order.order_number %></h3>
+    <p class="text-sm text-slate-500">Placed on <%= @order.created_at.strftime("%B %d, %Y at %H:%M") %></p>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+  <div class="lg:col-span-2 space-y-10">
+    <!-- Order Items -->
+    <div class="glass-card p-8">
+      <h4 class="text-xl font-bold mb-6">Order Items</h4>
+      <div class="space-y-4">
+        <% @order.order_items.each do |item| %>
+          <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div class="flex items-center">
+              <div class="w-16 h-16 rounded-xl bg-white border border-slate-200 overflow-hidden mr-4">
+                <img src="<%= item.product.primary_image&.url %>" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <p class="font-bold text-slate-800"><%= item.product_name %></p>
+                <% if item.variant_name.present? %>
+                  <p class="text-xs text-slate-500"><%= item.variant_name %></p>
+                <% end %>
+                <p class="text-xs text-slate-400">SKU: <%= item.sku %> • Qty: <%= item.quantity %></p>
+              </div>
+            </div>
+            <p class="font-bold text-slate-800">Rp <%= number_with_delimiter(item.total_price.to_i) %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-slate-100 space-y-2">
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Subtotal</span>
+          <span class="font-bold text-slate-800">Rp <%= number_with_delimiter(@order.subtotal.to_i) %></span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Shipping</span>
+          <span class="font-bold text-slate-800">Rp <%= number_with_delimiter(@order.shipping_cost.to_i) %></span>
+        </div>
+        <div class="flex justify-between text-lg pt-2">
+          <span class="font-bold text-slate-800">Total</span>
+          <span class="font-bold text-indigo-600">Rp <%= number_with_delimiter(@order.total.to_i) %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Timeline -->
+    <div class="glass-card p-8">
+      <h4 class="text-xl font-bold mb-8">Order History</h4>
+      <div class="relative pl-8 border-l-2 border-slate-100 space-y-8">
+        <% if @status_history.any? %>
+          <% @status_history.each do |history| %>
+            <div class="relative">
+              <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-white border-4 border-indigo-600"></div>
+              <p class="text-sm font-bold text-slate-800">Status changed from <%= history.from_status&.humanize || 'None' %> to <%= history.to_status.humanize %></p>
+              <p class="text-xs text-slate-400 mt-1"><%= history.created_at.strftime("%B %d, %Y - %H:%M") %></p>
+              <% if history.note.present? %>
+                <p class="mt-2 text-sm text-slate-600 p-3 bg-slate-50 rounded-xl border border-slate-100 italic">"<%= history.note %>"</p>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+        <div class="relative">
+          <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-white border-4 border-slate-200"></div>
+          <p class="text-sm font-bold text-slate-400 italic">Order Created</p>
+          <p class="text-xs text-slate-400 mt-1"><%= @order.created_at.strftime("%B %d, %Y - %H:%M") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="space-y-10">
+    <!-- Status Management -->
+    <div class="glass-card p-8">
+      <h4 class="text-lg font-bold mb-6">Management</h4>
+      <%= form_with url: update_status_admin_order_path(@order), method: :patch, class: "space-y-4" do |f| %>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update Order Status</label>
+          <%= f.select :status, Order.statuses.keys.map { |s| [s.humanize, s] }, { selected: @order.status }, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Optional Note</label>
+          <%= f.text_area :note, rows: 2, placeholder: "Why are you updating this?", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <%= f.submit "Update Order", class: "w-full py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <!-- Customer & Shipping -->
+    <div class="glass-card p-8">
+      <h4 class="text-lg font-bold mb-6">Customer & Shipping</h4>
+      <div class="space-y-6">
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Customer</p>
+          <p class="font-bold text-slate-800"><%= @order.customer_name %></p>
+          <p class="text-sm text-slate-500"><%= @order.customer_email %></p>
+          <p class="text-sm text-slate-500"><%= @order.customer_phone %></p>
+        </div>
+        
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Shipping Address</p>
+          <% addr = @order.shipping_address %>
+          <% if addr %>
+            <p class="text-sm text-slate-800 font-medium"><%= addr.full_name %></p>
+            <p class="text-sm text-slate-500"><%= addr.address_line1 %></p>
+            <p class="text-sm text-slate-500"><%= addr.city %>, <%= addr.state_province %> <%= addr.postal_code %></p>
+            <p class="text-sm text-slate-500"><%= addr.country %></p>
+          <% else %>
+            <p class="text-sm text-slate-400 italic">No address provided</p>
+          <% end %>
+        </div>
+
+        <div>
+           <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Payment</p>
+           <p class="text-sm font-bold text-emerald-600"><%= @order.payment_status.humanize %></p>
+           <p class="text-xs text-slate-500">Method: Bank Transfer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

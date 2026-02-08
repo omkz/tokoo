@@ -1,0 +1,11 @@
+<% content_for :title, "New Category" %>
+<% content_for :button_text, "Create Category" %>
+
+<div class="max-w-3xl mx-auto glass-card p-8">
+  <div class="mb-8">
+    <h3 class="text-xl font-bold">Category Details</h3>
+    <p class="text-sm text-slate-500">Create a new category to group your products.</p>
+  </div>
+
+  <%= render "form", category: @category %>
+</div>
