@@ -6,6 +6,34 @@ export default class extends Controller {
         variants: Array
     }
 
+    connect() {
+        // If this product has variants, ensure the add-to-cart button is disabled
+        // until a valid variant is selected. Also guard form submission to show
+        // a friendly message instead of submitting an invalid request.
+        try {
+            if (Array.isArray(this.variantsValue) && this.variantsValue.length > 0) {
+                if (this.hasButtonTarget) {
+                    this.buttonTarget.disabled = true
+                    this.buttonTarget.classList.add('opacity-50', 'cursor-not-allowed')
+                }
+
+                // prevent submit if variant not chosen
+                this.element.addEventListener('submit', (e) => {
+                    const currentVariant = this.hasVariantIdTarget ? this.variantIdTarget.value : null
+                    if (!currentVariant || currentVariant.toString().length === 0) {
+                        e.preventDefault()
+                        // minimal user feedback; you can replace with a nicer UI later
+                        alert('Please choose product options before adding to cart')
+                    }
+                })
+            }
+        } catch (err) {
+            // Fail silently — don't break the page if this controller has unexpected state
+            // eslint-disable-next-line no-console
+            console.error('variant-selector connect error', err)
+        }
+    }
+
     select(event) {
         const selectedOptions = Array.from(this.element.querySelectorAll('input[type="radio"]:checked')).map(input => input.value)
         const variant = this.variantsValue.find(v => {

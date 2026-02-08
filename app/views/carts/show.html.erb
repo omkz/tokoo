@@ -68,11 +68,11 @@
       <div class="lg:col-span-4 mt-12 lg:mt-0">
         <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 sticky top-24">
           <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
-          
+
           <div class="space-y-4 mb-6 border-b border-gray-100 pb-6">
             <div class="flex justify-between text-gray-600">
               <p>Subtotal</p>
-              <p><%= number_to_currency(@cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+              <p id="cart-subtotal"><%= number_to_currency(@cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
             </div>
             <div class="flex justify-between text-gray-600">
               <p>Shipping</p>
@@ -82,7 +82,7 @@
 
           <div class="flex justify-between text-2xl font-extrabold text-gray-900 mb-10">
             <p>Total</p>
-            <p><%= number_to_currency(@cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+            <p id="cart-total"><%= number_to_currency(@cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
           </div>
 
           <%= link_to "#", class: "w-full flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all hover-lift shadow-glow text-lg" do %>

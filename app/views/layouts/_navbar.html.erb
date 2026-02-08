@@ -22,9 +22,9 @@
       </div>
 
       <!-- Right Side: Auth & Cart -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4" data-controller="cart">
         <!-- Cart Toggle -->
-        <button class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors group" data-action="click->cart#toggle">
+        <button class="relative z-50 p-2 text-gray-700 hover:text-blue-600 transition-colors group" data-action="click->cart#toggle">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
@@ -32,6 +32,98 @@
             <%= current_cart.total_items %>
           </span>
         </button>
+
+        <!-- Cart Drawer -->
+        <div class="hidden fixed inset-0 bg-black/40 z-40" data-cart-target="drawer" aria-hidden="true"></div>
+        <div class="hidden fixed right-0 top-0 h-screen w-96 bg-white shadow-lg z-50 overflow-y-auto flex flex-col" data-cart-target="drawer" role="dialog" aria-modal="true" aria-hidden="true" id="cart-drawer-panel" tabindex="-1">
+          <!-- Drawer Header -->
+          <div class="flex justify-between items-center p-6 border-b">
+            <h2 class="text-xl font-bold text-gray-900">Shopping Cart</h2>
+            <button class="text-gray-500 hover:text-gray-700 transition-colors" data-action="click->cart#close">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Cart Items -->
+          <div class="flex-1 overflow-y-auto p-6">
+            <% if current_cart.cart_items.any? %>
+              <div class="space-y-4" data-controller="cart-items">
+                <% current_cart.cart_items.each do |item| %>
+                  <div class="flex gap-4 pb-4 border-b" data-cart-item-id="<%= item.id %>">
+                    <!-- Product Image -->
+                    <div class="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
+                      <svg class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="flex-1">
+                      <h3 class="text-sm font-semibold text-gray-900">
+                        <%= link_to item.product.name, product_detail_path(item.product.slug), class: "hover:text-blue-600" %>
+                      </h3>
+                      <p class="text-sm text-gray-600 mt-1">
+                        <%= number_to_currency(item.price, unit: "Rp", precision: 0, delimiter: ".") %>
+                      </p>
+
+                      <!-- Quantity & Remove -->
+                      <div class="flex items-center justify-between mt-3">
+                        <div class="flex items-center gap-2 border border-gray-300 rounded">
+                          <button class="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                                  data-action="click->cart-items#decreaseQuantity"
+                                  data-item-id="<%= item.id %>">−</button>
+                          <input type="number"
+                                 value="<%= item.quantity %>"
+                                 min="1"
+                                 class="w-10 text-center border-l border-r border-gray-300 focus:outline-none text-sm"
+                                 data-target="cart-items.quantity"
+                                 data-item-id="<%= item.id %>"
+                                 data-action="change->cart-items#updateQuantity">
+                          <button class="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                                  data-action="click->cart-items#increaseQuantity"
+                                  data-item-id="<%= item.id %>">+</button>
+                        </div>
+                        <div class="flex flex-col items-end">
+                          <button class="text-red-600 hover:text-red-700 text-sm"
+                                  data-action="click->cart-items#removeItem"
+                                  data-item-id="<%= item.id %>">Remove</button>
+                          <span class="text-sm text-gray-900 font-semibold mt-1" data-cart-item-subtotal-id="<%= item.id %>">
+                            <%= number_to_currency(item.subtotal, unit: "Rp", precision: 0, delimiter: ".") %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-12">
+                <svg class="h-12 w-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <p class="text-gray-600 text-sm">Your cart is empty</p>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Drawer Footer -->
+          <div class="border-t p-6 space-y-4">
+            <% if current_cart.cart_items.any? %>
+              <div class="flex justify-between items-center mb-4">
+                <span class="font-semibold text-gray-900">Total:</span>
+                <span class="text-lg font-bold text-blue-600" id="cart-drawer-total">
+                  <%= number_to_currency(current_cart.total_price, unit: "Rp", precision: 0, delimiter: ".") %>
+                </span>
+              </div>
+              <%= link_to "View Cart", cart_path, class: "w-full block text-center px-4 py-2 bg-gray-100 text-gray-900 rounded-lg font-medium hover:bg-gray-200 transition-colors" %>
+              <%= link_to "Checkout", new_checkout_path, class: "w-full block text-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors" %>
+            <% else %>
+              <%= link_to "Continue Shopping", root_path, class: "w-full block text-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors" %>
+            <% end %>
+          </div>
+        </div>
 
         <% if authenticated? %>
           <div class="hidden md:flex items-center gap-2">
@@ -96,3 +188,4 @@
     </div>
   </div>
 </nav>
+<!-- Removed inline fallback script (CSP may block inline scripts). Stimulus controller handles drawer toggling. -->

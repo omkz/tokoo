@@ -4,11 +4,26 @@
 
 import { application } from "./application"
 
+import CartController from "./cart_controller"
+application.register("cart", CartController)
+
+import CartItemsController from "./cart_items_controller"
+application.register("cart-items", CartItemsController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import HomeController from "./home_controller"
+application.register("home", HomeController)
+
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)
+
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
+
+import VariantSelectorController from "./variant_selector_controller"
+application.register("variant-selector", VariantSelectorController)
 
 import WebauthnCredentialsController from "./webauthn_credentials_controller"
 application.register("webauthn-credentials", WebauthnCredentialsController)
