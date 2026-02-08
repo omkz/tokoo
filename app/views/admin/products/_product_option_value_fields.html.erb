@@ -1,0 +1,11 @@
+<div class="nested-form-wrapper flex items-center bg-white border border-slate-200 rounded-lg p-1.5 shadow-sm" data-new-record="<%= f.object.new_record? %>">
+  <%= f.text_field :value, placeholder: "e.g., Red", class: "border-none bg-transparent p-0 text-sm focus:ring-0 w-24" %>
+  
+  <% if f.object.persisted? %>
+    <%= f.check_box :_destroy, class: "ml-2 w-3 h-3 text-red-500 rounded" %>
+  <% else %>
+    <button type="button" data-action="nested-form#remove" class="ml-2 text-red-400 hover:text-red-600">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  <% end %>
+</div>

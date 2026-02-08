@@ -1,0 +1,28 @@
+<div class="nested-form-wrapper p-4 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-1 md:grid-cols-4 gap-4 items-end shadow-sm" data-new-record="<%= f.object.new_record? %>">
+  <div class="md:col-span-1">
+    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1"><%= f.object.name || "New Variant" %></p>
+    <%= f.text_field :sku, placeholder: "SKU", class: "w-full p-2 text-xs bg-white border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :price, "Price (Override)", class: "text-[10px] font-bold text-slate-400 uppercase" %>
+    <%= f.number_field :price, class: "w-full p-2 text-xs bg-white border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :stock_quantity, "Stock", class: "text-[10px] font-bold text-slate-400 uppercase" %>
+    <%= f.number_field :stock_quantity, class: "w-full p-2 text-xs bg-white border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div class="flex items-center justify-between pb-2">
+    <div class="flex items-center">
+       <%= f.check_box :active, class: "w-4 h-4 text-indigo-600 rounded mr-2" %>
+       <span class="text-xs text-slate-600 font-bold uppercase">Active</span>
+    </div>
+    
+    <% if f.object.persisted? %>
+      <%= f.check_box :_destroy, class: "w-4 h-4 text-red-600 rounded" %>
+    <% else %>
+      <button type="button" data-action="nested-form#remove" class="text-red-500 hover:text-red-700 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+      </button>
+    <% end %>
+  </div>
+</div>

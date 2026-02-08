@@ -1,0 +1,161 @@
+<% content_for :title, "Product Details" %>
+
+<div class="mb-8 flex justify-between items-center">
+  <div class="flex items-center space-x-4">
+    <a href="<%= admin_products_path %>" class="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-indigo-600 transition">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    </a>
+    <div>
+      <h3 class="text-2xl font-bold text-slate-800"><%= @product.name %></h3>
+      <p class="text-sm text-slate-500">SKU: <%= @product.sku %> • Created <%= time_ago_in_words(@product.created_at) %> ago</p>
+    </div>
+  </div>
+  <div class="flex space-x-3">
+    <a href="<%= edit_admin_product_path(@product) %>" class="px-6 py-2 border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition flex items-center">
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+      Edit Product
+    </a>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+  <div class="lg:col-span-2 space-y-10">
+    <!-- Main Info -->
+    <div class="glass-card p-8">
+      <div class="flex justify-between items-start mb-6">
+        <h4 class="text-xl font-bold">Catalog Information</h4>
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full uppercase">
+          <%= @product.active? ? 'Active' : 'Draft' %>
+        </span>
+      </div>
+      
+      <div class="prose prose-slate max-w-none text-slate-600">
+        <p class="font-medium text-slate-800 mb-2">Description</p>
+        <%= simple_format @product.description %>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+        <div>
+          <p class="text-xs text-slate-400 font-bold uppercase mb-1">Price</p>
+          <p class="text-lg font-bold text-slate-800">Rp <%= number_with_delimiter(@product.price.to_i) %></p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-bold uppercase mb-1">Inventory</p>
+          <p class="text-lg font-bold text-slate-800"><%= @product.stock_quantity %> units</p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-bold uppercase mb-1">Weight</p>
+          <p class="text-lg font-bold text-slate-800"><%= @product.weight %> <%= @product.weight_unit %></p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-bold uppercase mb-1">Featured</p>
+          <p class="text-lg font-bold text-slate-800"><%= @product.featured? ? 'Yes' : 'No' %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variants Section -->
+    <div class="glass-card p-8">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h4 class="text-xl font-bold text-slate-800">Variants</h4>
+          <p class="text-sm text-slate-500">Different versions of this product basis on options.</p>
+        </div>
+      </div>
+
+      <% if @product.product_variants.any? %>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="text-slate-400 text-[10px] font-bold uppercase tracking-widest border-b border-slate-100">
+                <th class="pb-4 px-2">Variant</th>
+                <th class="pb-4 px-2">SKU</th>
+                <th class="pb-4 px-2">Price</th>
+                <th class="pb-4 px-2">Stock</th>
+                <th class="pb-4 px-2">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+              <% @product.product_variants.each do |variant| %>
+                <tr class="hover:bg-slate-50 transition">
+                  <td class="py-4 px-2">
+                    <p class="text-sm font-bold text-slate-800"><%= variant.name %></p>
+                  </td>
+                  <td class="py-4 px-2 text-sm text-slate-500"><%= variant.sku %></td>
+                  <td class="py-4 px-2 text-sm font-bold text-slate-800">
+                    <%= variant.price.present? ? "Rp #{number_with_delimiter(variant.price.to_i)}" : "-" %>
+                  </td>
+                  <td class="py-4 px-2 text-sm font-medium text-slate-600"><%= variant.stock_quantity %></td>
+                  <td class="py-4 px-2">
+                    <span class="inline-block px-2 py-0.5 text-[9px] font-bold rounded bg-emerald-100 text-emerald-700 uppercase">Active</span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          <p class="text-slate-500 text-sm font-medium">No variants defined for this product.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="space-y-10">
+    <!-- Media Gallery -->
+    <div class="glass-card p-8">
+      <h4 class="text-lg font-bold mb-6">Media Gallery</h4>
+      <% if @product.product_images.any? %>
+        <div class="grid grid-cols-2 gap-4">
+          <% @product.product_images.each do |img| %>
+            <div class="relative group aspect-square rounded-xl overflow-hidden border border-slate-100 bg-white shadow-sm">
+              <img src="<%= img.url %>" class="w-full h-full object-cover">
+              <% if img.primary? %>
+                <span class="absolute top-2 left-2 px-2 py-0.5 bg-indigo-600 text-white text-[9px] font-bold rounded uppercase">Main</span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+          <p class="text-xs text-slate-400">No images uploaded</p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Organization -->
+    <div class="glass-card p-8">
+      <h4 class="text-lg font-bold mb-6 text-slate-800">Organization</h4>
+      
+      <div class="space-y-6">
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Categories</p>
+          <div class="flex flex-wrap gap-2">
+            <% if @product.categories.any? %>
+              <% @product.categories.each do |cat| %>
+                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-lg"><%= cat.name %></span>
+              <% end %>
+            <% else %>
+              <span class="text-xs text-slate-400 italic">Uncategorized</span>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Analytics Snapshot</p>
+          <div class="p-4 bg-slate-800 rounded-xl text-white">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs text-slate-400">Total Views</span>
+              <span class="text-sm font-bold">1,204</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-slate-400">Conversion Rate</span>
+              <span class="text-sm font-bold text-emerald-400">2.4%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

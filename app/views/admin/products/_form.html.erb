@@ -1,0 +1,205 @@
+<%= form_with(model: [:admin, product], class: "space-y-8") do |f| %>
+  <% if product.errors.any? %>
+    <div class="p-4 bg-red-50 border border-red-200 rounded-xl mb-6">
+      <h4 class="text-red-800 font-bold mb-2"><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h4>
+      <ul class="list-disc list-inside text-red-700 text-sm">
+        <% product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-8">
+      <!-- Basic Info -->
+      <div class="glass-card p-8">
+        <h4 class="text-lg font-bold mb-6 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          General Information
+        </h4>
+        
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <%= f.label :name, class: "block text-sm font-bold text-slate-700" %>
+            <%= f.text_field :name, placeholder: "e.g., MacBook Pro M3", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <%= f.label :slug, class: "block text-sm font-bold text-slate-700" %>
+              <%= f.text_field :slug, placeholder: "e.g., macbook-pro-m3", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+            <div class="space-y-2">
+              <%= f.label :sku, "SKU", class: "block text-sm font-bold text-slate-700" %>
+              <%= f.text_field :sku, placeholder: "e.g., MAC-M3-001", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :short_description, class: "block text-sm font-bold text-slate-700" %>
+            <%= f.text_area :short_description, rows: 2, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :description, class: "block text-sm font-bold text-slate-700" %>
+            <%= f.text_area :description, rows: 6, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="glass-card p-8">
+        <h4 class="text-lg font-bold mb-6 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Pricing
+        </h4>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <%= f.label :price, "Base Price (IDR)", class: "block text-sm font-bold text-slate-700" %>
+            <div class="relative">
+              <span class="absolute left-3 top-3 text-slate-400 font-bold">Rp</span>
+              <%= f.number_field :price, class: "w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <%= f.label :compare_at_price, "Compare at Price", class: "block text-sm font-bold text-slate-700" %>
+            <div class="relative">
+              <span class="absolute left-3 top-3 text-slate-400 font-bold">Rp</span>
+              <%= f.number_field :compare_at_price, class: "w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div class="glass-card p-8" data-controller="nested-form">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h4 class="text-lg font-bold flex items-center text-slate-800">
+              <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+              Product Options
+            </h4>
+            <p class="text-sm text-slate-500 mt-1">Define attributes like Size or Color.</p>
+          </div>
+          <button type="button" data-action="nested-form#add" class="group px-4 py-2 bg-indigo-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition flex items-center transform hover:scale-105 active:scale-95">
+             <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+             Add New Option
+          </button>
+        </div>
+        
+        <template data-nested-form-target="template">
+          <%= f.fields_for :product_options, ProductOption.new, child_index: 'NEW_RECORD' do |option_form| %>
+            <%= render "admin/products/product_option_fields", f: option_form %>
+          <% end %>
+        </template>
+
+        <div id="product-options" class="space-y-6" data-nested-form-target="container">
+          <%= f.fields_for :product_options do |option_form| %>
+            <%= render "admin/products/product_option_fields", f: option_form %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Variants -->
+      <div class="glass-card p-8" data-controller="nested-form">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-lg font-bold flex items-center">
+            <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            Product Variants
+          </h4>
+          <div class="flex space-x-2">
+            <button type="button" data-action="nested-form#generateVariants" class="text-xs font-bold bg-indigo-600 text-white px-3 py-1.5 rounded-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition flex items-center">
+               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+               Auto-Generate
+            </button>
+            <button type="button" data-action="nested-form#add" class="text-xs font-bold bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg border border-indigo-100 hover:bg-indigo-100 transition flex items-center">
+               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+               Add Manually
+            </button>
+          </div>
+        </div>
+        <p class="text-sm text-slate-500 mb-6">Manage specific combinations and their price/inventory.</p>
+        
+        <template data-nested-form-target="template">
+          <%= f.fields_for :product_variants, ProductVariant.new, child_index: 'NEW_RECORD' do |variant_form| %>
+            <%= render "admin/products/product_variant_fields", f: variant_form %>
+          <% end %>
+        </template>
+
+        <div id="product-variants" class="space-y-4" data-nested-form-target="container">
+          <%= f.fields_for :product_variants do |variant_form| %>
+            <%= render "admin/products/product_variant_fields", f: variant_form %>
+          <% end %>
+          <% if f.object.product_variants.empty? %>
+            <div class="p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200 empty-state">
+               <p class="text-sm text-slate-400 italic">Variants will be available after you save product options or add them manually.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <!-- Status & Visibility -->
+      <div class="glass-card p-8">
+        <h4 class="text-lg font-bold mb-6">Status</h4>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <%= f.label :active, "Active", class: "text-sm font-medium text-slate-700" %>
+            <%= f.check_box :active, class: "w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 transition" %>
+          </div>
+          <div class="flex items-center justify-between">
+            <%= f.label :featured, "Featured", class: "text-sm font-medium text-slate-700" %>
+            <%= f.check_box :featured, class: "w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 transition" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="glass-card p-8">
+        <h4 class="text-lg font-bold mb-6">Categories</h4>
+        <div class="max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+          <%= f.collection_check_boxes :category_ids, Category.order(:name), :id, :name do |b| %>
+            <div class="flex items-center">
+              <%= b.check_box(class: "w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500") %>
+              <%= b.label(class: "ml-2 text-sm text-slate-600") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Images -->
+      <div class="glass-card p-8">
+        <h4 class="text-lg font-bold mb-6">Product Images</h4>
+        <p class="text-xs text-slate-500 mb-4">Add image URLs for this product.</p>
+        
+        <div id="product-images" class="space-y-4">
+          <%= f.fields_for :product_images do |image_form| %>
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <%= image_form.text_field :url, placeholder: "Image URL", class: "w-full p-2 mb-2 text-xs border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <%= image_form.check_box :primary, class: "w-3 h-3 text-indigo-600 mr-2" %>
+                  <span class="text-[10px] text-slate-600">Primary</span>
+                </div>
+                <% if image_form.object.persisted? %>
+                  <div class="flex items-center">
+                    <%= image_form.check_box :_destroy, class: "w-3 h-3 text-red-600 mr-2" %>
+                    <span class="text-[10px] text-red-600">Delete</span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-10 border-t border-slate-100 flex justify-end space-x-4">
+    <a href="<%= admin_products_path %>" class="px-8 py-3 border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition">Cancel</a>
+    <%= f.submit yield(:button_text), class: "px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
+  </div>
+<% end %>

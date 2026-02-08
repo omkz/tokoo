@@ -1,0 +1,9 @@
+<% content_for :title, "New Product" %>
+<% content_for :button_text, "Create Product" %>
+
+<div class="mb-8">
+  <h3 class="text-xl font-bold text-slate-800">Create New Product</h3>
+  <p class="text-sm text-slate-500">Fill in the details to add a new item to your catalog.</p>
+</div>
+
+<%= render "form", product: @product %>

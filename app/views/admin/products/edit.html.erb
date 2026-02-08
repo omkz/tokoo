@@ -1,0 +1,12 @@
+<% content_for :title, "Edit Product" %>
+<% content_for :button_text, "Save Changes" %>
+
+<div class="mb-8 flex justify-between items-center">
+  <div>
+    <h3 class="text-xl font-bold text-slate-800">Edit Product: <%= @product.name %></h3>
+    <p class="text-sm text-slate-500">Update product specifications, pricing, and media.</p>
+  </div>
+  <a href="<%= admin_product_path(@product) %>" class="text-indigo-600 hover:text-indigo-800 font-bold text-sm">View Live Settings</a>
+</div>
+
+<%= render "form", product: @product %>
