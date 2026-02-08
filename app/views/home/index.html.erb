@@ -1,297 +1,481 @@
-<!-- Hero Section -->
-<section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-        Welcome to Tokoo
-      </h1>
-      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-        Shop with confidence using secure passwordless authentication and two-factor security.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- Search & Filter Section -->
-<section class="bg-white border-b">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col md:flex-row gap-4 items-end">
-      <!-- Search Input -->
-      <div class="flex-1">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Search Products</label>
-        <div class="relative">
-          <svg class="absolute left-3 top-3 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input type="text" id="search" placeholder="Search by product name..." class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-      </div>
-
-      <!-- Category Filter -->
-      <div class="w-full md:w-48">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-        <select id="category" class="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">All Categories</option>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home">Home & Garden</option>
-          <option value="books">Books</option>
-          <option value="sports">Sports</option>
-        </select>
-      </div>
-
-      <!-- Price Range -->
-      <div class="w-full md:w-48">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
-        <input type="number" id="maxPrice" placeholder="$999.99" class="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-
-      <!-- Search Button -->
-      <button class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-        Search
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- Products Grid -->
-<section class="bg-gray-50 py-12 md:py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-900">Featured Products</h2>
-      <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">View All →</a>
+<div data-controller="home">
+  <!-- Enhanced Hero Section -->
+  <section class="relative bg-gradient-hero py-20 md:py-32 overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-float"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-float delay-200"></div>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Product 1 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center">
+        <div data-hero-animate class="opacity-0">
+          <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+            Welcome to <span class="text-pink-200">Tokoo</span>
+          </h1>
         </div>
-        <div class="p-4">
-          <div class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Electronics
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Wireless Headphones</h3>
-          <p class="text-sm text-gray-600 mb-4">Premium sound quality with noise cancellation</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$129.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
+        
+        <div data-hero-animate class="opacity-0">
+          <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+            Shop with confidence using secure passwordless authentication and two-factor security. 
+            Discover amazing products at unbeatable prices.
+          </p>
         </div>
-      </div>
 
-      <!-- Product 2 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18a2 2 0 012 2v14a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2z" />
-          </svg>
+        <div data-hero-animate class="opacity-0 flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <% if authenticated? %>
+            <a href="#products" data-action="click->home#scrollToSection" class="px-8 py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-50 transition-all hover-lift shadow-glow">
+              Start Shopping
+            </a>
+          <% else %>
+            <%= link_to "Get Started", new_session_path, class: "px-8 py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-50 transition-all hover-lift shadow-glow" %>
+            <a href="#products" data-action="click->home#scrollToSection" class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-all">
+              Browse Products
+            </a>
+          <% end %>
         </div>
-        <div class="p-4">
-          <div class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Fashion
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Designer Watch</h3>
-          <p class="text-sm text-gray-600 mb-4">Classic timepiece for any occasion</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$199.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Product 3 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Home
+        <!-- Trust Badges -->
+        <div data-hero-animate class="opacity-0 flex flex-wrap justify-center gap-8 text-white/80">
+          <div class="flex items-center gap-2">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <span class="font-medium">Secure Checkout</span>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Smart Coffee Maker</h3>
-          <p class="text-sm text-gray-600 mb-4">WiFi-enabled brewing perfection</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$89.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
+          <div class="flex items-center gap-2">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            </svg>
+            <span class="font-medium">Free Shipping</span>
           </div>
-        </div>
-      </div>
-
-      <!-- Product 4 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Books
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Tech Innovation Guide</h3>
-          <p class="text-sm text-gray-600 mb-4">Learn modern development practices</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$34.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 5 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Sports
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Fitness Tracker</h3>
-          <p class="text-sm text-gray-600 mb-4">Monitor your health 24/7</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$79.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 6 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Electronics
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">USB-C Power Bank</h3>
-          <p class="text-sm text-gray-600 mb-4">Fast charging for all your devices</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$44.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 7 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-pink-100 text-pink-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Fashion
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Sunglasses UV400</h3>
-          <p class="text-sm text-gray-600 mb-4">Stylish protection for outdoor</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$59.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 8 -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden group">
-        <div class="bg-gray-200 h-48 flex items-center justify-center">
-          <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div class="p-4">
-          <div class="inline-block bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-xs font-semibold mb-2">
-            Home
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">LED Desk Lamp</h3>
-          <p class="text-sm text-gray-600 mb-4">Adjustable brightness & color</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-gray-900">$49.99</p>
-            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </button>
+          <div class="flex items-center gap-2">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+            </svg>
+            <span class="font-medium">Easy Returns</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CTA Section -->
-<section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-      Shop with Confidence
-    </h2>
-    <p class="text-xl text-blue-100 mb-8">
-      Secure passwordless login & two-factor authentication for maximum protection.
-    </p>
-    <% if authenticated? %>
-      <a href="#" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-        Continue Shopping
-      </a>
-    <% else %>
-      <a href="<%= new_session_path %>" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-        Sign In to Shop
-      </a>
-    <% end %>
-  </div>
-</section>
+  <!-- Category Highlights -->
+  <section class="py-16 bg-gray-50" id="categories">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12" data-animate>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+        <p class="text-xl text-gray-600">Explore our curated collections</p>
+      </div>
 
-<script>
-  // Simple client-side search/filter (static demo)
-  document.getElementById('search').addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    // In a real app, this would filter actual products
-    console.log('Search:', searchTerm);
-  });
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Electronics -->
+        <div data-animate class="group relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
+            <svg class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <h3 class="text-2xl font-bold mb-2">Electronics</h3>
+            <p class="text-white/80 text-center">Latest gadgets & tech</p>
+          </div>
+        </div>
 
-  document.getElementById('category').addEventListener('change', function(e) {
-    console.log('Category:', e.target.value);
-  });
+        <!-- Fashion -->
+        <div data-animate class="group relative bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
+            <svg class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+            <h3 class="text-2xl font-bold mb-2">Fashion</h3>
+            <p class="text-white/80 text-center">Trendy styles & accessories</p>
+          </div>
+        </div>
 
-  document.getElementById('maxPrice').addEventListener('input', function(e) {
-    console.log('Max Price:', e.target.value);
-  });
-</script>
+        <!-- Home & Garden -->
+        <div data-animate class="group relative bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
+            <svg class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <h3 class="text-2xl font-bold mb-2">Home & Garden</h3>
+            <p class="text-white/80 text-center">Beautiful living spaces</p>
+          </div>
+        </div>
+
+        <!-- Sports -->
+        <div data-animate class="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
+            <svg class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-2xl font-bold mb-2">Sports & Fitness</h3>
+            <p class="text-white/80 text-center">Stay active & healthy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-20 bg-white" id="products">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center mb-12">
+        <div data-animate>
+          <h2 class="text-4xl font-bold text-gray-900 mb-2">Featured Products</h2>
+          <p class="text-xl text-gray-600">Handpicked items just for you</p>
+        </div>
+        <a href="#" class="hidden md:block text-purple-600 hover:text-purple-700 font-semibold text-lg">
+          View All →
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Product 1: Wireless Headphones -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/headphones.png", class: "product-image h-full w-full object-contain", alt: "Wireless Headphones" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="badge-new">New</span>
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Wireless Headphones</h3>
+            <p class="text-gray-600 mb-4 text-sm">Premium sound quality with noise cancellation</p>
+            <div class="flex items-center justify-between">
+              <p class="text-3xl font-bold text-gray-900">$129.99</p>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Designer Watch -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/watch.png", class: "product-image h-full w-full object-contain", alt: "Designer Watch" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="badge-popular">Popular</span>
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Designer Watch</h3>
+            <p class="text-gray-600 mb-4 text-sm">Classic timepiece for any occasion</p>
+            <div class="flex items-center justify-between">
+              <p class="text-3xl font-bold text-gray-900">$199.99</p>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Smart Coffee Maker -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/coffee-maker.png", class: "product-image h-full w-full object-contain", alt: "Smart Coffee Maker" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="badge-sale">Sale</span>
+              <div class="flex star-rating">
+                <% 4.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+                <svg class="h-4 w-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Coffee Maker</h3>
+            <p class="text-gray-600 mb-4 text-sm">WiFi-enabled brewing perfection</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-500 line-through">$119.99</p>
+                <p class="text-3xl font-bold text-gray-900">$89.99</p>
+              </div>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Tech Book -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/book.png", class: "product-image h-full w-full object-contain", alt: "Tech Innovation Guide" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Tech Innovation Guide</h3>
+            <p class="text-gray-600 mb-4 text-sm">Learn modern development practices</p>
+            <div class="flex items-center justify-between">
+              <p class="text-3xl font-bold text-gray-900">$34.99</p>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5: Fitness Tracker -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/fitness-tracker.png", class: "product-image h-full w-full object-contain", alt: "Fitness Tracker" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="badge-new">New</span>
+              <div class="flex star-rating">
+                <% 4.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+                <svg class="h-4 w-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Fitness Tracker</h3>
+            <p class="text-gray-600 mb-4 text-sm">Monitor your health 24/7</p>
+            <div class="flex items-center justify-between">
+              <p class="text-3xl font-bold text-gray-900">$79.99</p>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6: Power Bank -->
+        <div data-animate class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+          <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
+            <%= image_tag "products/power-bank.png", class: "product-image h-full w-full object-contain", alt: "USB-C Power Bank" %>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">USB-C Power Bank</h3>
+            <p class="text-gray-600 mb-4 text-sm">Fast charging for all your devices</p>
+            <div class="flex items-center justify-between">
+              <p class="text-3xl font-bold text-gray-900">$44.99</p>
+              <button class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7 & 8: Placeholder for future products -->
+        <div data-animate class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden hover-lift group h-full flex items-center justify-center p-8">
+          <div class="text-center">
+            <svg class="h-20 w-20 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            <p class="text-gray-600 font-medium">More products coming soon!</p>
+          </div>
+        </div>
+
+        <div data-animate class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden hover-lift group h-full flex items-center justify-center p-8">
+          <div class="text-center">
+            <svg class="h-20 w-20 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <p class="text-gray-600 font-medium">Stay tuned for updates!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof / Testimonials -->
+  <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16" data-animate>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Loved by Thousands</h2>
+        <p class="text-xl text-gray-600">See what our customers are saying</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div data-animate class="bg-white rounded-2xl p-8 shadow-lg hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold text-xl">
+              S
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-gray-900">Sarah Johnson</h4>
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"The passwordless authentication is so convenient! Shopping has never been easier and more secure."</p>
+        </div>
+
+        <div data-animate class="bg-white rounded-2xl p-8 shadow-lg hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="h-12 w-12 rounded-full bg-gradient-secondary flex items-center justify-center text-white font-bold text-xl">
+              M
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-gray-900">Michael Chen</h4>
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"Amazing product quality and fast shipping. The website is beautiful and easy to navigate!"</p>
+        </div>
+
+        <div data-animate class="bg-white rounded-2xl p-8 shadow-lg hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center text-white font-bold text-xl">
+              E
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-gray-900">Emma Williams</h4>
+              <div class="flex star-rating">
+                <% 5.times do %>
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"Best online shopping experience! Two-factor authentication gives me peace of mind."</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8" data-animate>
+        <div class="text-center">
+          <p class="text-5xl font-bold gradient-text mb-2">50K+</p>
+          <p class="text-gray-600 font-medium">Happy Customers</p>
+        </div>
+        <div class="text-center">
+          <p class="text-5xl font-bold gradient-text mb-2">100K+</p>
+          <p class="text-gray-600 font-medium">Products Sold</p>
+        </div>
+        <div class="text-center">
+          <p class="text-5xl font-bold gradient-text mb-2">4.9</p>
+          <p class="text-gray-600 font-medium">Average Rating</p>
+        </div>
+        <div class="text-center">
+          <p class="text-5xl font-bold gradient-text mb-2">24/7</p>
+          <p class="text-gray-600 font-medium">Customer Support</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-20 bg-gradient-primary relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div data-animate>
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Get Exclusive Deals
+        </h2>
+        <p class="text-xl text-white/90 mb-8">
+          Subscribe to our newsletter and get 10% off your first purchase!
+        </p>
+
+        <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+          <input 
+            type="email" 
+            placeholder="Enter your email address" 
+            class="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/30"
+            required
+          />
+          <button 
+            type="submit" 
+            class="px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold hover:bg-gray-50 transition-all hover-lift shadow-glow"
+          >
+            Subscribe
+          </button>
+        </form>
+
+        <p class="text-white/70 text-sm mt-4">
+          No spam, unsubscribe anytime. We respect your privacy.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-animate>
+      <% unless authenticated? %>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          Ready to Start Shopping?
+        </h2>
+        <p class="text-xl text-gray-600 mb-8">
+          Create your account with secure passwordless authentication
+        </p>
+        <%= link_to "Sign Up Now", new_session_path, class: "inline-block px-8 py-4 bg-gradient-primary text-white rounded-xl font-semibold hover:shadow-glow-purple transition-all hover-lift text-lg" %>
+      <% end %>
+    </div>
+  </section>
+</div>
