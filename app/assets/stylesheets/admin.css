@@ -1,0 +1,96 @@
+/* app/assets/stylesheets/admin.css */
+
+:root {
+    --admin-primary: #6366f1;
+    --admin-primary-hover: #4f46e5;
+    --admin-bg: #f8fafc;
+    --admin-card-bg: rgba(255, 255, 255, 0.7);
+    --admin-sidebar-bg: #0f172a;
+    --admin-text-main: #1e293b;
+    --admin-text-muted: #64748b;
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+body.admin-body {
+    background: radial-gradient(circle at top right, #e2e8f0, #f8fafc);
+    font-family: 'Inter', sans-serif;
+    color: var(--admin-text-main);
+    min-height: 100vh;
+}
+
+.glass-card {
+    background: var(--admin-card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+}
+
+.admin-sidebar {
+    background: var(--admin-sidebar-bg);
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: white;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+
+.admin-content {
+    margin-left: 260px;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-radius: 8px;
+    margin: 0.25rem 1rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-link.active {
+    background: var(--admin-primary);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.nav-icon {
+    margin-right: 12px;
+    width: 20px;
+}
+
+.stat-card {
+    padding: 1.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--admin-text-muted);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}

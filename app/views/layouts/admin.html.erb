@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tokoo | Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="admin-body">
+    <aside class="admin-sidebar shadow-2xl">
+      <div class="p-6 mb-4">
+        <h1 class="text-2xl font-bold tracking-tight text-white">Tokoo<span class="text-indigo-500">.</span></h1>
+        <p class="text-xs text-slate-400 font-medium">ADMIN CONSOLE</p>
+      </div>
+      
+      <nav class="mt-4">
+        <a href="/admin/dashboard" class="nav-link <%= controller_name == 'dashboard' ? 'active' : '' %>">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1.5 1.5 0 001.5 1.5h3a1.5 1.5 0 001.5-1.5v-4a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v4a1.5 1.5 0 001.5 1.5h3a1.5 1.5 0 001.5-1.5V10M9 21h6"></path></svg>
+          Dashboard
+        </a>
+        <div class="px-7 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Store</div>
+        <a href="/admin/products" class="nav-link <%= controller_name == 'products' ? 'active' : '' %>">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          Products
+        </a>
+        <a href="/admin/categories" class="nav-link <%= controller_name == 'categories' ? 'active' : '' %>">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          Categories
+        </a>
+        <a href="/admin/orders" class="nav-link <%= controller_name == 'orders' ? 'active' : '' %>">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          Orders
+        </a>
+        
+        <div class="px-7 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">System</div>
+        <a href="/admin/settings" class="nav-link">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          Settings
+        </a>
+      </nav>
+
+      <div class="absolute bottom-0 w-full p-6">
+        <div class="glass-card p-4 border-slate-700 bg-slate-800/50">
+          <p class="text-[10px] text-slate-400 font-bold mb-1">LOGGED IN AS</p>
+          <p class="text-sm font-semibold truncate">Administrator</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="admin-content">
+      <header class="flex justify-between items-center mb-8">
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight"><%= yield :title if content_for?(:title) %></h2>
+          <nav class="flex text-sm text-slate-500 mt-1">
+            <span class="hover:text-indigo-600 transition">Admin</span>
+            <span class="mx-2">/</span>
+            <span class="font-medium text-slate-800"><%= controller_name.humanize %></span>
+          </nav>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <button class="glass-card p-2 text-slate-600 hover:text-indigo-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+          </button>
+          <div class="h-8 w-px bg-slate-200"></div>
+          <a href="/" target="_blank" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 flex items-center transition">
+            View Store
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+        </div>
+      </header>
+
+      <% if flash.any? %>
+        <% flash.each do |type, msg| %>
+          <div class="mb-6 p-4 rounded-xl border border-blue-100 bg-blue-50 text-blue-700 font-medium">
+            <%= msg %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>
