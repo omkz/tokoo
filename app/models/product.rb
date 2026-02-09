@@ -15,6 +15,9 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :product_options, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :product_variants, allow_destroy: true, reject_if: :all_blank
 
+  attr_accessor :images_upload
+  after_save :process_images_upload, if: -> { images_upload.present? }
+
   validates :name, :slug, :sku, :price, presence: true
   validates :slug, :sku, uniqueness: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
@@ -39,5 +42,11 @@ class Product < ApplicationRecord
 
   def generate_slug
     self.slug = name.parameterize
+  end
+
+  def process_images_upload
+    Array(images_upload).each do |file|
+      product_images.create!(image: file)
+    end
   end
 end
