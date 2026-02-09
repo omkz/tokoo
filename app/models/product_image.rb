@@ -2,8 +2,6 @@ class ProductImage < ApplicationRecord
   belongs_to :product
   has_one_attached :image
 
-  validates :url, presence: true
-  
   scope :primary, -> { where(primary: true) }
   scope :ordered, -> { order(position: :asc) }
 

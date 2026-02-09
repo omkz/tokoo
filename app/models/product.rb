@@ -30,13 +30,9 @@ class Product < ApplicationRecord
 
   def image_url(img = nil)
     img ||= primary_image
-    return nil unless img
+    return nil unless img&.image&.attached?
 
-    if img.image.attached?
-      Rails.application.routes.url_helpers.rails_blob_url(img.image, only_path: true)
-    else
-      img.url
-    end
+    Rails.application.routes.url_helpers.rails_blob_url(img.image, only_path: true)
   end
 
   private

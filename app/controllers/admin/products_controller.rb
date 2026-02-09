@@ -54,7 +54,7 @@ module Admin
         :compare_at_price, :cost_price, :sku, :barcode, :active, 
         :featured, :stock_quantity, :track_inventory, :weight, 
         :weight_unit, category_ids: [],
-        product_images_attributes: [:id, :url, :image, :alt_text, :position, :primary, :_destroy],
+        product_images_attributes: [:id, :image, :alt_text, :position, :primary, :_destroy],
         product_options_attributes: [:id, :name, :position, :_destroy, 
           product_option_values_attributes: [:id, :value, :position, :_destroy]
         ],
