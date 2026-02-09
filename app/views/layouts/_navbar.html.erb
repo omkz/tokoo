@@ -142,6 +142,7 @@
             </button>
             <!-- Dropdown -->
             <div class="hidden group-hover:block absolute right-0 mt-0 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+              <%= link_to "My Orders", orders_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm" %>
               <%= link_to "Profile Settings", "#", class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm" %>
               <%= link_to "Security", "#", class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm" %>
               <div class="border-t my-2"></div>
@@ -176,6 +177,7 @@
               <p class="text-sm text-gray-700 font-medium"><%= current_user.email_address %></p>
               <p class="text-xs text-gray-500">Member since <%= current_user.created_at.strftime('%b %Y') %></p>
             </div>
+            <%= link_to "My Orders", orders_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg text-sm transition-colors" %>
             <%= link_to "Profile Settings", "#", class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg text-sm transition-colors" %>
             <%= link_to "Security", "#", class: "block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg text-sm transition-colors" %>
             <%= button_to "Sign Out", session_path, method: :delete, class: "w-full mt-2 px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg font-medium text-sm transition-colors" %>

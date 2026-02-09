@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Authentication
   
-  helper_method :current_user, :authenticated?, :current_cart
+  helper_method :current_user, :current_cart
   
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -12,9 +12,6 @@ class ApplicationController < ActionController::Base
     Current.user
   end
 
-  def authenticated?
-    current_user.present?
-  end
 
   def current_cart
     @current_cart ||= find_or_create_cart
