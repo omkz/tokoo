@@ -11,7 +11,6 @@ module Admin
 
     def new
       @product = Product.new
-      @product.product_images.build if @product.product_images.empty?
       @product.product_options.build if @product.product_options.empty?
     end
 
@@ -25,7 +24,6 @@ module Admin
     end
 
     def edit
-      @product.product_images.build if @product.product_images.empty?
       @product.product_options.build if @product.product_options.empty?
     end
 
