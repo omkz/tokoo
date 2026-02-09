@@ -18,7 +18,7 @@
       <div class="flex flex-col">
         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-3xl bg-white shadow-xl border border-gray-100 p-8 group">
           <% if @product.primary_image %>
-            <img src="<%= @product.primary_image.url %>" alt="<%= @product.name %>" class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-110">
+            <img src="<%= @product.image_url %>" alt="<%= @product.name %>" class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-110">
           <% else %>
             <div class="flex items-center justify-center h-full text-gray-400 italic">No image available</div>
           <% end %>
@@ -29,7 +29,7 @@
           <div class="mt-6 grid grid-cols-4 gap-4">
             <% @product.product_images.each do |image| %>
               <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-xl bg-white border border-gray-100 cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all p-2">
-                <img src="<%= image.url %>" class="h-full w-full object-contain">
+                <img src="<%= @product.image_url(image) %>" class="h-full w-full object-contain">
               </div>
             <% end %>
           </div>
@@ -125,7 +125,7 @@
             <%= link_to product_detail_path(related.slug), class: "group relative" do %>
               <div class="relative h-72 w-full overflow-hidden rounded-2xl bg-white p-4 border border-gray-100 transition-shadow hover:shadow-xl">
                 <% if related.primary_image %>
-                  <img src="<%= related.primary_image.url %>" class="h-full w-full object-contain object-center group-hover:scale-105 transition-transform">
+                  <img src="<%= related.image_url %>" class="h-full w-full object-contain object-center group-hover:scale-105 transition-transform">
                 <% end %>
               </div>
               <div class="mt-4">

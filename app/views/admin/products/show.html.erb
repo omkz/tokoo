@@ -110,7 +110,7 @@
         <div class="grid grid-cols-2 gap-4">
           <% @product.product_images.each do |img| %>
             <div class="relative group aspect-square rounded-xl overflow-hidden border border-slate-100 bg-white shadow-sm">
-              <img src="<%= img.url %>" class="w-full h-full object-cover">
+              <img src="<%= @product.image_url(img) %>" class="w-full h-full object-cover">
               <% if img.primary? %>
                 <span class="absolute top-2 left-2 px-2 py-0.5 bg-indigo-600 text-white text-[9px] font-bold rounded uppercase">Main</span>
               <% end %>

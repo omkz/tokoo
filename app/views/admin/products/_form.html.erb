@@ -178,7 +178,15 @@
         <div id="product-images" class="space-y-4">
           <%= f.fields_for :product_images do |image_form| %>
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <%= image_form.text_field :url, placeholder: "Image URL", class: "w-full p-2 mb-2 text-xs border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
+              <div class="mb-4">
+                <% if image_form.object.image.attached? %>
+                  <%= image_tag image_form.object.image.variant(resize_to_limit: [100, 100]), class: "rounded-lg mb-2 border border-slate-200" %>
+                <% elsif image_form.object.url.present? %>
+                  <img src="<%= image_form.object.url %>" class="w-20 h-20 object-contain rounded-lg mb-2 border border-slate-200">
+                <% end %>
+                <%= image_form.file_field :image, class: "w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+              </div>
+              <%= image_form.text_field :url, placeholder: "Or enter Image URL", class: "w-full p-2 mb-2 text-xs border border-slate-200 rounded focus:ring-indigo-500 outline-none" %>
               <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <%= image_form.check_box :primary, class: "w-3 h-3 text-indigo-600 mr-2" %>

@@ -28,6 +28,17 @@ class Product < ApplicationRecord
     product_images.find_by(primary: true) || product_images.first
   end
 
+  def image_url(img = nil)
+    img ||= primary_image
+    return nil unless img
+
+    if img.image.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(img.image, only_path: true)
+    else
+      img.url
+    end
+  end
+
   private
 
   def generate_slug

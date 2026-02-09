@@ -101,7 +101,7 @@
             <%= link_to product_detail_path(product.slug), data: { animate: true }, class: "bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group" do %>
               <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
                 <% if product.primary_image %>
-                  <img src="<%= product.primary_image.url %>" class="product-image h-full w-full object-contain" alt="<%= product.name %>">
+                  <img src="<%= product.image_url %>" class="product-image h-full w-full object-contain" alt="<%= product.name %>">
                 <% else %>
                    <div class="text-gray-400">No Image</div>
                 <% end %>
