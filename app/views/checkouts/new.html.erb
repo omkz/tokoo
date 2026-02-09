@@ -107,7 +107,7 @@
                 <li class="flex py-4">
                   <div class="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
                     <% if item.product.primary_image %>
-                       <img src="<%= item.product.primary_image.url %>" alt="<%= item.product.name %>" class="h-full w-full object-cover object-center">
+                       <img src="<%= item.product.image_url %>" alt="<%= item.product.name %>" class="h-full w-full object-cover object-center">
                     <% else %>
                        <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-400">No Img</div>
                     <% end %>

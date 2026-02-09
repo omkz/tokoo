@@ -11,7 +11,7 @@
                 <li class="p-8 flex items-center gap-8 group">
                   <div class="h-32 w-32 shrink-0 overflow-hidden rounded-2xl bg-gray-50 p-4 border border-gray-100 group-hover:shadow-md transition-shadow">
                     <% if item.product.primary_image %>
-                      <img src="<%= item.product.primary_image.url %>" alt="<%= item.product.name %>" class="h-full w-full object-contain">
+                      <img src="<%= item.product.image_url %>" alt="<%= item.product.name %>" class="h-full w-full object-contain">
                     <% end %>
                   </div>
 
