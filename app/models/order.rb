@@ -24,7 +24,7 @@ class Order < ApplicationRecord
   }, default: 'pending'
 
   enum :payment_status, {
-    payment_pending: 'pending',
+    pending: 'pending',
     authorized: 'authorized',
     paid: 'paid',
     refunded: 'refunded',

@@ -19,13 +19,13 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
 
   namespace :admin do
-    get 'dashboard', to: 'dashboard#index'
+    get "dashboard", to: "dashboard#index"
     resources :categories
     resources :products
     resources :orders do
       patch :update_status, on: :member
     end
-    root to: 'dashboard#index'
+    root to: "dashboard#index"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -41,7 +41,15 @@ Rails.application.routes.draw do
 
   resource :cart, only: [ :show ]
   resources :cart_items, only: [ :create, :update, :destroy ]
-  resources :checkouts, only: [ :new, :create, :show ]
+  resources :checkouts, only: [ :new, :create, :show ] do
+    member do
+      get :payment
+      post :process_payment
+    end
+  end
+
+  # Webhook untuk payment gateways
+  post "stripe/webhook", to: "stripe_webhooks#create"
 
   # Defines the root path route ("/")
   root "home#index"

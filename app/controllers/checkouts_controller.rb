@@ -1,21 +1,21 @@
 class CheckoutsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create show ]
-  before_action :set_cart
-  before_action :ensure_cart_not_empty, only: [:new, :create]
+  allow_unauthenticated_access only: %i[ new create show payment process_payment ]
+  before_action :set_cart, only: [ :new, :create ]
+  before_action :ensure_cart_not_empty, only: [ :new, :create ]
 
   def new
     @order = Order.new
-    @shipping_address = @order.order_addresses.build(address_type: 'shipping')
-    @billing_address = @order.order_addresses.build(address_type: 'billing')
+    @shipping_address = @order.order_addresses.build(address_type: "shipping")
+    @billing_address = @order.order_addresses.build(address_type: "billing")
     @shipping_methods = ShippingMethod.where(active: true)
   end
 
   def create
     @order = Order.new(order_params)
-    @order.user = current_user if user_signed_in?
+    @order.user = current_user if authenticated?
     # Set default status/payment for now
     @order.status = :pending
-    @order.payment_status = :payment_pending
+    @order.payment_status = :pending
     @order.fulfillment_status = :unfulfilled
 
     # Calculate totals from cart
@@ -40,7 +40,7 @@ class CheckoutsController < ApplicationController
 
     # Calculate tax based on shipping address
     tax_amount = 0.0
-    shipping_address = @order.order_addresses.find { |a| a.address_type == 'shipping' }
+    shipping_address = @order.order_addresses.find { |a| a.address_type == "shipping" }
     if shipping_address
       tax_rate = TaxRate.active.for_region(
         shipping_address.country,
@@ -79,17 +79,105 @@ class CheckoutsController < ApplicationController
       # Clear cart
       @cart.cart_items.destroy_all
 
-      redirect_to checkout_path(@order), notice: 'Order placed successfully!'
+      # Redirect to payment page
+      redirect_to payment_checkout_path(@order), notice: "Order created. Please complete payment."
     else
       @shipping_methods = ShippingMethod.where(active: true)
-      @shipping_address = @order.order_addresses.find { |a| a.address_type == 'shipping' } || @order.order_addresses.build(address_type: 'shipping')
-      @billing_address = @order.order_addresses.find { |a| a.address_type == 'billing' } || @order.order_addresses.build(address_type: 'billing')
+      @shipping_address = @order.order_addresses.find { |a| a.address_type == "shipping" } || @order.order_addresses.build(address_type: "shipping")
+      @billing_address = @order.order_addresses.find { |a| a.address_type == "billing" } || @order.order_addresses.build(address_type: "billing")
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
     @order = Order.find(params[:id])
+  end
+
+  def payment
+    @order = Order.find(params[:id])
+    @payment_methods = PaymentMethod.active.ordered
+    @stripe_publishable_key = Rails.application.credentials.dig(:stripe, :publishable_key) || ENV["STRIPE_PUBLISHABLE_KEY"]
+
+    # If Stripe payment already initiated, get the client secret
+    @existing_payment = @order.order_payments.where(status: "pending").last
+    if @existing_payment&.payment_method&.code == "stripe_cc"
+      @client_secret = @existing_payment.metadata&.dig("client_secret")
+      @payment_intent_id = @existing_payment.transaction_id
+    end
+
+    render "payments/new"
+  end
+
+  def process_payment
+    begin
+      Rails.logger.info "Processing payment for order #{params[:id]}, payment_method_id: #{params[:payment_method_id]}, format: #{request.format}"
+
+      @order = Order.find(params[:id])
+      payment_method = PaymentMethod.find_by(id: params[:payment_method_id])
+
+      Rails.logger.info "Order: #{@order.id}, PaymentMethod: #{payment_method&.id} (#{payment_method&.code})"
+
+      unless payment_method
+        respond_to do |format|
+          format.json { render json: { success: false, error: "Please select a payment method." }, status: :unprocessable_entity }
+          format.html { redirect_to payment_checkout_path(@order), alert: "Please select a payment method." }
+        end
+        return
+      end
+
+      # Process payment based on method
+      result = case payment_method.code
+      when "stripe_cc"
+        processor = StripeProcessor.new(order: @order, payment_method: payment_method)
+        processor.process
+      when "bank_transfer"
+        processor = ManualPaymentProcessor.new(order: @order, payment_method: payment_method)
+        processor.process
+      else
+        { success: false, error: "Payment method not supported." }
+      end
+
+      Rails.logger.info "Payment processing result: #{result.inspect}"
+
+      respond_to do |format|
+        format.json do
+          if result[:success]
+            if payment_method.code == "stripe_cc"
+              render json: {
+                success: true,
+                client_secret: result[:client_secret],
+                payment_intent_id: result[:payment_intent_id]
+              }
+            else
+              render json: { success: true, redirect: checkout_path(@order) }
+            end
+          else
+            render json: { success: false, error: result[:error] || "Payment processing failed" }, status: :unprocessable_entity
+          end
+        end
+        format.html do
+          if result[:success]
+            if payment_method.code == "stripe_cc"
+              redirect_to payment_checkout_path(@order, payment_intent: result[:payment_intent_id]),
+                          notice: "Payment initialized. Please complete your card details."
+            else
+              redirect_to checkout_path(@order),
+                          notice: "Order placed. Please complete bank transfer payment."
+            end
+          else
+            redirect_to payment_checkout_path(@order), alert: "Payment error: #{result[:error]}"
+          end
+        end
+      end
+    rescue => e
+      Rails.logger.error "Payment processing error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+
+      respond_to do |format|
+        format.json { render json: { success: false, error: e.message }, status: :unprocessable_entity }
+        format.html { redirect_to payment_checkout_path(@order), alert: "Payment error: #{e.message}" }
+      end
+    end
   end
 
   private
@@ -108,7 +196,7 @@ class CheckoutsController < ApplicationController
   def order_params
     params.require(:order).permit(
       :customer_email, :customer_name, :customer_phone, :customer_note,
-      order_addresses_attributes: [:id, :address_type, :full_name, :address_line1, :address_line2, :city, :state_province, :postal_code, :country, :phone_number]
+      order_addresses_attributes: [ :id, :address_type, :full_name, :address_line1, :address_line2, :city, :state_province, :postal_code, :country, :phone_number ]
     )
   end
 end

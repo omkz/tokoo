@@ -89,7 +89,7 @@
                   <%= radio_button_tag "order[shipping_method_id]", method.id, false, class: "h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500", required: true %>
                   <%= label_tag "order_shipping_method_id_#{method.id}", class: "ml-3 block text-sm font-medium text-gray-700 flex justify-between w-full" do %>
                     <span><%= method.name %></span>
-                    <span class="text-gray-500"><%= number_to_currency(method.price) %></span>
+                    <span class="text-gray-500"><%= number_to_currency(method.base_price) %></span>
                   <% end %>
                 </div>
               <% end %>
@@ -99,15 +99,15 @@
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow bg-gray-50">
+        <div class="bg-white p-6 rounded-lg shadow">
           <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
           <div class="flow-root">
             <ul role="list" class="-my-4 divide-y divide-gray-200">
               <% @cart.cart_items.each do |item| %>
                 <li class="flex py-4">
-                  <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <% if item.product.images.attached? %>
-                       <%= image_tag item.product.images.first, class: "h-full w-full object-cover object-center" %>
+                  <div class="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <% if item.product.primary_image %>
+                       <img src="<%= item.product.primary_image.url %>" alt="<%= item.product.name %>" class="h-full w-full object-cover object-center">
                     <% else %>
                        <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-400">No Img</div>
                     <% end %>

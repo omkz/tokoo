@@ -25,7 +25,7 @@
         <div class="flex-auto flex flex-col">
           <div>
             <h4 class="font-medium text-gray-900">
-              <%= link_to item.product.name, product_path(item.product) %>
+              <%= link_to item.product.name, product_detail_path(item.product.slug) %>
             </h4>
             <p class="mt-2 text-sm text-gray-600"><%= item.product_variant&.name %></p>
           </div>
@@ -64,7 +64,13 @@
         <div>
           <dt class="font-medium text-gray-900">Payment status</dt>
           <dd class="mt-2 text-gray-700">
-            <p><%= @order.payment_status.humanize %></p>
+            <p class="<%= @order.payment_pending? ? 'text-yellow-600 font-semibold' : 'text-gray-700' %>">
+              <%= @order.payment_status.humanize %>
+            </p>
+            <% if @order.payment_pending? %>
+              <%= link_to "Complete Payment", payment_checkout_path(@order),
+                  class: "mt-2 inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium transition-colors" %>
+            <% end %>
           </dd>
         </div>
       </dl>
