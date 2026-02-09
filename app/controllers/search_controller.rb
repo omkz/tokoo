@@ -1,9 +1,9 @@
 class SearchController < ApplicationController
   def index
-    @query = params[:q]
+    @query = params[:q]&.strip
     if @query.present?
       @products = Product.active
-                        .where("name LIKE ? OR description LIKE ?", "%#{@query}%", "%#{@query}%")
+                        .where("name ILIKE ? OR description ILIKE ?", "%#{@query}%", "%#{@query}%")
                         .order(created_at: :desc)
     else
       @products = Product.none
