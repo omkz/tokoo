@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   post "stripe/webhook", to: "stripe_webhooks#create"
 
   resources :orders, only: [ :index, :show ]
+  get "search", to: "search#index", as: :search
+
   # Defines the root path route ("/")
   root "home#index"
 end
