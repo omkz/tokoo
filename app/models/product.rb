@@ -27,6 +27,10 @@ class Product < ApplicationRecord
 
   before_validation :generate_slug, if: -> { slug.blank? && name.present? }
 
+  def valid_product_images
+    product_images.joins(:image_attachment).distinct.order(position: :asc)
+  end
+
   def primary_image
     product_images.find_by(primary: true) || product_images.first
   end

@@ -192,10 +192,10 @@
 
         <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Manage Current Gallery</h5>
         <div id="product-images" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <%= f.fields_for :product_images do |image_form| %>
+          <%= f.fields_for :product_images, product.valid_product_images do |image_form| %>
             <%= render "admin/products/product_image_fields", f: image_form %>
           <% end %>
-          <% if product.product_images.empty? %>
+          <% if product.valid_product_images.empty? %>
             <div class="p-8 text-center bg-slate-50 rounded-xl border border-slate-200">
               <p class="text-sm text-slate-400 italic">No images uploaded yet.</p>
             </div>
