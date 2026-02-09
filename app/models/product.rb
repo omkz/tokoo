@@ -11,7 +11,7 @@ class Product < ApplicationRecord
   has_many :product_analytics, dependent: :destroy
   has_many :product_events, dependent: :destroy
 
-  accepts_nested_attributes_for :product_images, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :product_images, allow_destroy: true, reject_if: proc { |attributes| attributes['image'].blank? && attributes['id'].blank? }
   accepts_nested_attributes_for :product_options, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :product_variants, allow_destroy: true, reject_if: :all_blank
 
