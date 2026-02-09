@@ -1,0 +1,31 @@
+<div class="nested-form-wrapper p-4 bg-slate-50 rounded-xl border border-slate-200" data-new-record="<%= f.object.new_record? %>">
+  <div class="mb-4">
+    <% if f.object.image.attached? %>
+      <div class="mb-2">
+        <%= image_tag f.object.image.variant(resize_to_limit: [100, 100]), class: "rounded-lg border border-slate-200" %>
+      </div>
+    <% end %>
+    <%= f.file_field :image, class: "w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+  </div>
+  
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <%= f.check_box :primary, class: "w-3 h-3 text-indigo-600 mr-2" %>
+      <span class="text-[10px] text-slate-600">Primary Image</span>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <% if f.object.persisted? %>
+        <div class="flex items-center text-red-600 space-x-1">
+          <%= f.check_box :_destroy, class: "w-3 h-3 rounded" %>
+          <span class="text-[10px] uppercase font-bold">Delete</span>
+        </div>
+      <% else %>
+        <button type="button" data-action="nested-form#remove" class="text-red-500 hover:text-red-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15h2m-6 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          <span class="text-[10px] font-bold uppercase ml-1">Remove</span>
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>
