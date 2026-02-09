@@ -79,6 +79,12 @@
           <dt class="font-medium text-gray-900">Shipping</dt>
           <dd class="text-gray-700"><%= number_to_currency(@order.shipping_cost) %></dd>
         </div>
+        <% if @order.tax_amount > 0 %>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-900">Tax</dt>
+            <dd class="text-gray-700"><%= number_to_currency(@order.tax_amount) %></dd>
+          </div>
+        <% end %>
         <div class="flex justify-between">
           <dt class="font-medium text-gray-900">Total</dt>
           <dd class="text-gray-900"><%= number_to_currency(@order.total) %></dd>
