@@ -190,18 +190,17 @@
           <% end %>
         </div>
 
-        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Current Gallery</h5>
-        <div id="product-images" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Manage Current Gallery</h5>
+        <div id="product-images" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <%= f.fields_for :product_images do |image_form| %>
             <%= render "admin/products/product_image_fields", f: image_form %>
           <% end %>
+          <% if product.product_images.empty? %>
+            <div class="p-8 text-center bg-slate-50 rounded-xl border border-slate-200">
+              <p class="text-sm text-slate-400 italic">No images uploaded yet.</p>
+            </div>
+          <% end %>
         </div>
-        
-        <% if product.product_images.empty? %>
-          <div class="p-8 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200 mt-4">
-            <p class="text-sm text-slate-400 italic">No images in gallery. Use the field above to upload.</p>
-          </div>
-        <% end %>
       </div>
     </div>
   </div>

@@ -1,36 +1,31 @@
-<div class="group relative aspect-square bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition shadow-sm" data-new-record="<%= f.object.new_record? %>">
-  <% if f.object.image.attached? %>
-    <%= image_tag f.object.image.variant(resize_to_fill: [200, 200]), class: "w-full h-full object-cover" %>
-  <% else %>
-    <div class="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300 italic text-[10px]">No Image</div>
-  <% end %>
-
-  <!-- Controls Overlay -->
-  <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-2">
-    <div class="flex justify-between items-start">
-      <div class="flex items-center bg-white/90 rounded px-1.5 py-0.5">
-        <%= f.check_box :primary, class: "w-3 h-3 text-indigo-600 rounded focus:ring-indigo-500 mr-1.5" %>
-        <span class="text-[9px] font-bold text-slate-700 uppercase">Main</span>
-      </div>
-      
-      <% if f.object.persisted? %>
-        <div class="flex items-center bg-red-500/90 rounded px-1.5 py-0.5">
-          <%= f.check_box :_destroy, class: "w-3 h-3 text-white border-white rounded focus:ring-red-500 mr-1.5" %>
-          <span class="text-[9px] font-bold text-white uppercase">Del</span>
-        </div>
-      <% end %>
-    </div>
-    
-    <% if f.object.new_record? %>
-      <div class="mt-auto">
-        <%= f.file_field :image, class: "w-full text-[8px] text-white file:hidden" %>
+<div class="nested-form-wrapper p-4 bg-slate-50 rounded-xl border border-slate-200" data-new-record="<%= f.object.new_record? %>">
+  <div class="mb-4">
+    <% if f.object.image.attached? %>
+      <div class="mb-2">
+        <%= image_tag f.object.image.variant(resize_to_limit: [100, 100]), class: "rounded-lg border border-slate-200" %>
       </div>
     <% end %>
+    <%= f.file_field :image, class: "w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
   </div>
   
-  <% if f.object.primary? %>
-    <div class="absolute top-1 left-1 px-1.5 py-0.5 bg-indigo-600 text-white text-[8px] font-bold rounded uppercase shadow-sm">
-      Primary
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <%= f.check_box :primary, class: "w-3 h-3 text-indigo-600 mr-2" %>
+      <span class="text-[10px] text-slate-600">Primary Image</span>
     </div>
-  <% end %>
+    
+    <div class="flex items-center space-x-2">
+      <% if f.object.persisted? %>
+        <div class="flex items-center text-red-600 space-x-1">
+          <%= f.check_box :_destroy, class: "w-3 h-3 rounded" %>
+          <span class="text-[10px] uppercase font-bold">Delete</span>
+        </div>
+      <% else %>
+        <button type="button" data-action="nested-form#remove" class="text-red-500 hover:text-red-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15h2m-6 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          <span class="text-[10px] font-bold uppercase ml-1">Remove</span>
+        </button>
+      <% end %>
+    </div>
+  </div>
 </div>
