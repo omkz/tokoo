@@ -10,7 +10,7 @@ class SearchController < ApplicationController
     @products = Product.active
 
     if @query.present?
-      @products = @products.where("name ILIKE ? OR description ILIKE ?", "%#{@query}%", "%#{@query}%")
+      @products = @products.where("products.name ILIKE ? OR products.description ILIKE ?", "%#{@query}%", "%#{@query}%")
     end
 
     if @category_id.present?
