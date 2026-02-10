@@ -1,0 +1,89 @@
+<% content_for :title, "Store Settings" %>
+
+<div class="max-w-4xl">
+  <div class="mb-8">
+    <h3 class="text-2xl font-bold text-slate-800">Global Settings</h3>
+    <p class="text-sm text-slate-500 text-pretty max-w-xl">Customize your store's identity, contact information, and SEO metadata. These settings reflect across the entire platform.</p>
+  </div>
+
+  <%= form_with url: update_all_admin_store_settings_path, method: :patch, class: "space-y-8" do |f| %>
+    <!-- General Settings -->
+    <div class="glass-card p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <h4 class="text-lg font-bold">General Identity & SEO</h4>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Store Name</label>
+          <%= f.text_field "settings[store_name]", value: StoreSetting.store_name, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Store Logo URL</label>
+          <%= f.text_field "settings[store_logo_url]", value: StoreSetting.get('store_logo_url'), placeholder: "https://hub.com/logo.png", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="md:col-span-2 space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Meta Description (SEO)</label>
+          <%= f.text_area "settings[meta_description]", value: StoreSetting.meta_description, rows: 3, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Settings -->
+    <div class="glass-card p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        </div>
+        <h4 class="text-lg font-bold">Contact & Support</h4>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Support Email</label>
+          <%= f.email_field "settings[store_email]", value: StoreSetting.store_email, placeholder: "hello@tokoo.com", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">WhatsApp Number</label>
+          <%= f.text_field "settings[store_whatsapp]", value: StoreSetting.store_whatsapp, placeholder: "628123456789", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="md:col-span-2 space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Office / Store Address</label>
+          <%= f.text_area "settings[store_address]", value: StoreSetting.store_address, rows: 2, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media -->
+    <div class="glass-card p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2 bg-pink-100 text-pink-600 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+        </div>
+        <h4 class="text-lg font-bold">Social Media Links</h4>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Instagram URL</label>
+          <%= f.text_field "settings[instagram_url]", value: StoreSetting.get('instagram_url'), placeholder: "https://instagram.com/...", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Facebook URL</label>
+          <%= f.text_field "settings[facebook_url]", value: StoreSetting.get('facebook_url'), placeholder: "https://facebook.com/...", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TikTok URL</label>
+          <%= f.text_field "settings[tiktok_url]", value: StoreSetting.get('tiktok_url'), placeholder: "https://tiktok.com/@...", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-4">
+      <%= f.submit "Save All Changes", class: "px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-1 transition active:scale-95 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

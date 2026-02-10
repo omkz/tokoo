@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Tokoo" %></title>
+    <title><%= content_for(:title) || StoreSetting.store_name %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= StoreSetting.meta_description %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Tokoo">
+    <meta name="application-name" content="<%= StoreSetting.store_name %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -26,6 +27,9 @@
   <body data-controller="cart">
     <%= render "layouts/navbar" %>
     <%= render "layouts/mini_cart" %>
-    <%= yield %>
+    <main class="min-h-screen">
+      <%= yield %>
+    </main>
+    <%= render "layouts/footer" %>
   </body>
 </html>

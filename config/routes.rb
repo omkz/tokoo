@@ -28,6 +28,9 @@ Rails.application.routes.draw do
         patch :update_status
       end
     end
+    resources :store_settings, only: [:index] do
+      patch :update_all, on: :collection
+    end
     root to: "dashboard#index"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

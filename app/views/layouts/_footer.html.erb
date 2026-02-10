@@ -1,0 +1,80 @@
+<footer class="bg-slate-900 text-white py-16 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+      <!-- Store Info -->
+      <div class="col-span-1 md:col-span-1">
+        <h3 class="text-2xl font-bold mb-6"><%= StoreSetting.store_name %><span class="text-indigo-500">.</span></h3>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+          <%= StoreSetting.meta_description %>
+        </p>
+        <div class="flex gap-4">
+          <% if (insta = StoreSetting.get('instagram_url')).present? %>
+            <a href="<%= insta %>" target="_blank" class="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+            </a>
+          <% end %>
+          <% if (fb = StoreSetting.get('facebook_url')).present? %>
+            <a href="<%= fb %>" target="_blank" class="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+            </a>
+          <% end %>
+          <% if (wa = StoreSetting.store_whatsapp).present? %>
+            <a href="https://wa.me/<%= wa %>" target="_blank" class="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-widest mb-6">Explore</h4>
+        <ul class="space-y-4 text-slate-400 text-sm">
+          <li><%= link_to "Home", root_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Products", root_path(anchor: "products"), class: "hover:text-white transition-colors" %></li>
+          <li><a href="#" class="hover:text-white transition-colors">Categories</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">New Arrivals</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-widest mb-6">Support</h4>
+        <ul class="space-y-4 text-slate-400 text-sm">
+          <li><%= link_to "My Orders", orders_path, class: "hover:text-white transition-colors" %></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Shipping Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-widest mb-6">Contact Us</h4>
+        <ul class="space-y-4 text-slate-400 text-sm">
+          <% if (addr = StoreSetting.store_address).present? %>
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <span><%= addr %></span>
+            </li>
+          <% end %>
+          <% if (email = StoreSetting.store_email).present? %>
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              <span><%= email %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+      <p>&copy; <%= Time.current.year %> <%= StoreSetting.store_name %>. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Terms</a>
+        <a href="#" class="hover:text-white transition-colors">Privacy</a>
+        <a href="#" class="hover:text-white transition-colors">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
