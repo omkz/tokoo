@@ -51,7 +51,12 @@ Rails.application.routes.draw do
   # Webhook untuk payment gateways
   post "stripe/webhook", to: "stripe_webhooks#create"
 
-  resources :orders, only: [ :index, :show ]
+  resources :orders, only: [ :index, :show ] do
+    member do
+      patch :ship
+      patch :update_status
+    end
+  end
   get "search", to: "search#index", as: :search
 
   # Defines the root path route ("/")

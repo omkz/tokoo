@@ -61,7 +61,10 @@ class StripeWebhooksController < ApplicationController
       status: 'confirmed'
     )
 
-    Rails.logger.info "Payment succeeded for order #{order.order_number}"
+    # Automatically reduce inventory
+    order.reduce_inventory!
+
+    Rails.logger.info "Payment succeeded and inventory reduced for order #{order.order_number}"
   end
 
   def handle_payment_failed(payment_intent)

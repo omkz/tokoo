@@ -47,6 +47,34 @@ class Order < ApplicationRecord
     order_addresses.find_by(address_type: 'billing')
   end
 
+  def reduce_inventory!
+    Order.transaction do
+      order_items.each do |item|
+        # Product Variant or Product
+        base = item.product_variant || item.product
+        next unless base.respond_to?(:stock_quantity) && base.respond_to?(:track_inventory)
+        next unless base.track_inventory
+
+        before = base.stock_quantity
+        after = before - item.quantity
+        
+        base.update!(stock_quantity: after)
+
+        # Log Movement
+        InventoryMovement.create!(
+          product: item.product,
+          product_variant: item.product_variant,
+          order_item: item,
+          movement_type: :sale,
+          quantity: item.quantity,
+          quantity_before: before,
+          quantity_after: after,
+          user: user
+        )
+      end
+    end
+  end
+
   private
 
   def generate_order_number

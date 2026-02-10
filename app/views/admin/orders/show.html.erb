@@ -78,20 +78,27 @@
 
   <div class="space-y-10">
     <!-- Status Management -->
-    <div class="glass-card p-8">
-      <h4 class="text-lg font-bold mb-6">Management</h4>
-      <%= form_with url: update_status_admin_order_path(@order), method: :patch, class: "space-y-4" do |f| %>
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update Order Status</label>
-          <%= f.select :status, Order.statuses.keys.map { |s| [s.humanize, s] }, { selected: @order.status }, class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+      <div class="space-y-4">
+        <% if @order.status != 'shipped' && @order.status != 'delivered' && @order.status != 'cancelled' %>
+          <%= button_to ship_admin_order_path(@order), method: :patch, class: "w-full py-4 bg-emerald-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-200 hover:bg-emerald-700 hover:-translate-y-1 transition active:scale-95 flex items-center justify-center gap-2" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            Mark as Shipped
+          <% end %>
+        <% end %>
+
+        <div class="glass-card p-6 bg-slate-50/50 border-dashed">
+          <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Quick Status Update</h4>
+          <%= form_with url: update_status_admin_order_path(@order), method: :patch, class: "space-y-4" do |f| %>
+            <div class="space-y-2">
+              <%= f.select :status, Order.statuses.keys.map { |s| [s.humanize, s] }, { selected: @order.status }, class: "w-full p-3 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+            <div class="space-y-2">
+              <%= f.text_area :note, rows: 2, placeholder: "Add a note...", class: "w-full p-3 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
+            </div>
+            <%= f.submit "Update", class: "w-full py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-900 transition cursor-pointer" %>
+          <% end %>
         </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Optional Note</label>
-          <%= f.text_area :note, rows: 2, placeholder: "Why are you updating this?", class: "w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 outline-none transition" %>
-        </div>
-        <%= f.submit "Update Order", class: "w-full py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
-      <% end %>
-    </div>
+      </div>
 
     <!-- Customer & Shipping -->
     <div class="glass-card p-8">
@@ -118,9 +125,23 @@
         </div>
 
         <div>
-           <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Payment</p>
-           <p class="text-sm font-bold text-emerald-600"><%= @order.payment_status.humanize %></p>
-           <p class="text-xs text-slate-500">Method: Bank Transfer</p>
+           <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest">Inventory Movements</p>
+           <div class="space-y-3">
+             <% @order.order_items.each do |item| %>
+               <% movement = InventoryMovement.find_by(order_item: item) %>
+               <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                 <p class="text-[10px] font-bold text-slate-800 truncate"><%= item.product_name %></p>
+                 <% if movement %>
+                   <div class="flex justify-between items-center mt-1">
+                     <span class="text-[10px] text-slate-500"><%= movement.quantity_before %> → <%= movement.quantity_after %></span>
+                     <span class="text-[10px] font-bold text-red-600">-<%= movement.quantity %></span>
+                   </div>
+                 <% else %>
+                   <p class="text-[10px] text-slate-400 italic">No movement logged</p>
+                 <% end %>
+               </div>
+             <% end %>
+           </div>
         </div>
       </div>
     </div>
