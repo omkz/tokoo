@@ -60,82 +60,133 @@
     </div>
   </section>
 
-  <!-- Category Highlights -->
-  <section class="py-16 bg-gray-50" id="categories">
+  <!-- Category Filter Bar -->
+  <section class="sticky top-16 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12" data-animate>
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
-        <p class="text-xl text-gray-600">Explore our curated collections</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="flex items-center gap-4 overflow-x-auto no-scrollbar pb-2">
+        <%= link_to root_path(anchor: "products"), 
+            class: "px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap #{params[:category].blank? ? 'bg-indigo-600 text-white shadow-glow-indigo' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}",
+            data: { turbo_frame: "products_frame" } do %>
+          All Products
+        <% end %>
+        
         <% @categories.each do |category| %>
-          <div data-animate class="group relative bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl overflow-hidden hover-lift cursor-pointer h-64">
-            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all"></div>
-            <div class="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
-              <h3 class="text-2xl font-bold mb-2"><%= category.name %></h3>
-              <p class="text-white/80 text-center"><%= category.description&.truncate(50) %></p>
-            </div>
-          </div>
+          <%= link_to root_path(category: category.slug, anchor: "products"), 
+              class: "px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap #{params[:category] == category.slug ? 'bg-indigo-600 text-white shadow-glow-indigo' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}",
+              data: { turbo_frame: "products_frame" } do %>
+            <%= category.name %>
+          <% end %>
         <% end %>
       </div>
     </div>
   </section>
 
-  <!-- Featured Products -->
+  <!-- Featured Products Section -->
   <section class="py-20 bg-white" id="products">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center mb-12">
-        <div data-animate>
-          <h2 class="text-4xl font-bold text-gray-900 mb-2">Featured Products</h2>
-          <p class="text-xl text-gray-600">Handpicked items just for you</p>
+      <%= turbo_frame_tag "products_frame" do %>
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+          <div data-animate>
+            <h2 class="text-4xl font-black text-slate-900 mb-2">
+              <%= @category ? @category.name : "Featured Selection" %>
+            </h2>
+            <p class="text-lg text-slate-500 font-medium">
+              <%= @category ? @category.description : "Quality products curated for your best experience." %>
+            </p>
+          </div>
+          <div class="text-sm font-bold text-slate-400 bg-slate-50 px-4 py-2 rounded-lg border border-slate-100">
+            Showing <span class="text-indigo-600"><%= @products.offset_value + 1 %>-<%= @products.offset_value + @products.length %></span> of <%= @products.total_count %> items
+          </div>
         </div>
-        <a href="#" class="hidden md:block text-purple-600 hover:text-purple-700 font-semibold text-lg">
-          View All →
-        </a>
-      </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <% if @products.any? %>
-          <% @products.each do |product| %>
-            <%= link_to product_detail_path(product.slug), data: { animate: true }, class: "bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group" do %>
-              <div class="product-image-container bg-gray-100 h-64 flex items-center justify-center p-6">
-                <% if product.primary_image %>
-                  <img src="<%= product.image_url %>" class="product-image h-full w-full object-contain" alt="<%= product.name %>">
-                <% else %>
-                   <div class="text-gray-400">No Image</div>
-                <% end %>
-              </div>
-              <div class="p-6">
-                <div class="flex items-center gap-2 mb-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <% if @products.any? %>
+            <% @products.each do |product| %>
+              <%= link_to product_detail_path(product.slug), data: { turbo: false, animate: true }, class: "bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden hover-lift group flex flex-col h-full" do %>
+                <div class="relative bg-slate-50 h-72 flex items-center justify-center p-8 overflow-hidden">
+                  <% if product.primary_image %>
+                    <img src="<%= product.image_url %>" class="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" alt="<%= product.name %>">
+                  <% else %>
+                     <div class="text-slate-300">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                     </div>
+                  <% end %>
                   <% if product.created_at > 7.days.ago %>
-                    <span class="badge-new">New</span>
+                    <span class="absolute top-4 left-4 px-3 py-1 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">New Arrival</span>
                   <% end %>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2"><%= product.name %></h3>
-                <p class="text-gray-600 mb-4 text-sm"><%= product.short_description&.truncate(80) %></p>
-                <div class="flex items-center justify-between">
-                  <p class="text-3xl font-bold text-gray-900"><%= number_to_currency(product.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
-                  <div class="p-3 bg-gradient-primary text-white rounded-xl hover:shadow-glow transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+                <div class="p-6 flex flex-col flex-1">
+                  <h3 class="text-lg font-black text-slate-800 mb-2 line-clamp-1 group-hover:text-indigo-600 transition-colors"><%= product.name %></h3>
+                  <p class="text-slate-500 mb-6 text-xs line-clamp-2 font-medium leading-relaxed"><%= product.short_description %></p>
+                  
+                  <div class="mt-auto flex items-center justify-between">
+                    <div>
+                      <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Price</p>
+                      <p class="text-xl font-black text-slate-900"><%= number_to_currency(product.price, unit: "Rp", precision: 0, delimiter: ".") %></p>
+                    </div>
+                    <div class="p-3 bg-slate-900 text-white rounded-2xl group-hover:bg-indigo-600 group-hover:shadow-glow-indigo transition-all">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <% end %>
             <% end %>
+          <% else %>
+            <div data-animate class="col-span-full py-32 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+              <div class="w-20 h-20 bg-white shadow-sm rounded-2xl flex items-center justify-center mx-auto mb-6 text-slate-300">
+                <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-900 mb-2">No items found</h3>
+              <p class="text-slate-500 font-medium max-w-xs mx-auto text-sm">We couldn't find any products in this category at the moment.</p>
+              <%= link_to "Clear filters", root_path(anchor: "products"), class: "mt-6 inline-block text-indigo-600 font-bold hover:underline", data: { turbo_frame: "products_frame" } %>
+            </div>
           <% end %>
-        <% else %>
-          <!-- Empty State -->
-          <div data-animate class="col-span-full py-20 text-center">
-            <svg class="h-20 w-20 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">No Products Yet</h3>
-            <p class="text-gray-600">Please add products in the admin dashboard to see them here.</p>
+        </div>
+
+        <!-- Pagination -->
+        <% if @products.total_pages > 1 %>
+          <div class="mt-20 flex justify-center items-center gap-2">
+            <% if @products.first_page? %>
+              <div class="p-3 text-slate-300 border border-slate-100 rounded-xl cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </div>
+            <% else %>
+              <%= link_to root_path(page: @products.prev_page, category: params[:category], anchor: "products"), 
+                  class: "p-3 text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors",
+                  data: { turbo_frame: "products_frame" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              <% end %>
+            <% end %>
+
+            <div class="flex items-center gap-1 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+              <% @products.total_pages.times do |i| %>
+                <% pnum = i + 1 %>
+                <%= link_to pnum, root_path(page: pnum, category: params[:category], anchor: "products"), 
+                    class: "w-10 h-10 flex items-center justify-center rounded-xl text-sm font-black transition-all #{pnum == @products.current_page ? 'bg-white text-indigo-600 shadow-sm border border-slate-100 scale-110' : 'text-slate-400 hover:text-slate-600 hover:bg-white/50'}",
+                    data: { turbo_frame: "products_frame" } %>
+              <% end %>
+            </div>
+
+            <% if @products.last_page? %>
+              <div class="p-3 text-slate-300 border border-slate-100 rounded-xl cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </div>
+            <% else %>
+              <%= link_to root_path(page: @products.next_page, category: params[:category], anchor: "products"), 
+                  class: "p-3 text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors",
+                  data: { turbo_frame: "products_frame" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <% end %>
+            <% end %>
           </div>
         <% end %>
-      </div>
+      <% end %>
+    </div>
+  </section>
       </div>
     </div>
   </section>
