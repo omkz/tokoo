@@ -1,134 +1,117 @@
-<div class="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-  <div class="mb-8 flex items-center justify-between">
-    <div>
-      <nav class="flex mb-4 text-sm font-medium text-gray-500" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2">
-          <li><%= link_to "My Orders", orders_path, class: "hover:text-indigo-600 transition-colors" %></li>
-          <li>
-            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-14.14L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <nav class="flex mb-8" aria-label="Breadcrumb">
+    <ol role="list" class="flex items-center space-x-4">
+      <li>
+        <div>
+          <%= link_to orders_path, class: "text-slate-400 hover:text-slate-500" do %>
+            <svg class="flex-shrink-0 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-          </li>
-          <li class="text-gray-900 font-bold">#<%= @order.order_number %></li>
-        </ol>
-      </nav>
-      <h1 class="text-3xl font-extrabold text-gray-900">Order Details</h1>
-      <p class="mt-2 text-sm text-gray-500">Placed on <%= @order.created_at.strftime("%B %d, %Y at %H:%M") %></p>
-    </div>
-    
-    <div class="flex flex-col items-end gap-2">
-      <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium 
-        <%= case @order.payment_status.to_sym
-            when :paid then 'bg-green-100 text-green-800'
-            when :pending then 'bg-yellow-100 text-yellow-800'
-            else 'bg-gray-100 text-gray-800'
-            end %>">
-        Payment: <%= @order.payment_status.humanize %>
-      </span>
-      <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium
-        <%= case @order.status.to_sym
-            when :confirmed then 'bg-blue-100 text-blue-800'
-            when :shipped then 'bg-purple-100 text-purple-800'
-            when :delivered then 'bg-indigo-100 text-indigo-800'
-            else 'bg-gray-100 text-gray-800'
-            end %>">
-        Order: <%= @order.status.humanize %>
-      </span>
-    </div>
-  </div>
-
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
-    <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gray-50">
-      <h3 class="text-lg leading-6 font-bold text-gray-900">Items Summary</h3>
-    </div>
-    <ul role="list" class="divide-y divide-gray-200">
-      <% @order.order_items.each do |item| %>
-        <li class="px-4 py-6 sm:px-6 flex items-center justify-between">
-          <div class="flex items-center">
-            <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 p-2 bg-gray-50">
-              <% if item.product.primary_image %>
-                <img src="<%= item.product.image_url %>" alt="<%= item.product_name %>" class="h-full w-full object-contain">
-              <% end %>
-            </div>
-            <div class="ml-4">
-              <h4 class="text-base font-bold text-gray-900">
-                <%= link_to item.product_name, product_detail_path(item.product.slug), class: "hover:text-indigo-600" %>
-              </h4>
-              <% if item.variant_name.present? %>
-                <p class="mt-1 text-sm text-gray-500"><%= item.variant_name %></p>
-              <% end %>
-              <p class="mt-1 text-sm text-gray-500">Qty <%= item.quantity %> x <%= number_to_currency(item.unit_price, unit: "Rp", precision: 0, delimiter: ".") %></p>
-            </div>
-          </div>
-          <div class="text-right font-bold text-gray-900">
-            <%= number_to_currency(item.total_price, unit: "Rp", precision: 0, delimiter: ".") %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-    
-    <div class="px-4 py-6 sm:px-6 bg-gray-50 border-t border-gray-200">
-      <dl class="space-y-4">
-        <div class="flex justify-between text-sm">
-          <dt class="text-gray-600">Subtotal</dt>
-          <dd class="text-gray-900 font-medium"><%= number_to_currency(@order.subtotal, unit: "Rp", precision: 0, delimiter: ".") %></dd>
-        </div>
-        <div class="flex justify-between text-sm">
-          <dt class="text-gray-600">Shipping</dt>
-          <dd class="text-gray-900 font-medium"><%= number_to_currency(@order.shipping_cost, unit: "Rp", precision: 0, delimiter: ".") %></dd>
-        </div>
-        <% if @order.tax_amount > 0 %>
-          <div class="flex justify-between text-sm">
-            <dt class="text-gray-600">Tax</dt>
-            <dd class="text-gray-900 font-medium"><%= number_to_currency(@order.tax_amount, unit: "Rp", precision: 0, delimiter: ".") %></dd>
-          </div>
-        <% end %>
-        <div class="flex justify-between text-lg font-bold border-t border-gray-200 pt-4">
-          <dt class="text-gray-900">Total</dt>
-          <dd class="text-indigo-600"><%= number_to_currency(@order.total, unit: "Rp", precision: 0, delimiter: ".") %></dd>
-        </div>
-      </dl>
-    </div>
-  </div>
-
-  <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-    <div class="bg-white shadow sm:rounded-lg border border-gray-200 p-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        Shipping Address
-      </h3>
-      <address class="not-italic text-sm text-gray-600 space-y-1">
-        <span class="block font-bold text-gray-900"><%= @order.shipping_address&.full_name %></span>
-        <span class="block"><%= @order.shipping_address&.address_line1 %></span>
-        <span class="block"><%= @order.shipping_address&.city %>, <%= @order.shipping_address&.postal_code %></span>
-        <span class="block"><%= @order.shipping_address&.country %></span>
-        <span class="block mt-2"><%= @order.shipping_address&.phone_number %></span>
-      </address>
-    </div>
-
-    <div class="bg-white shadow sm:rounded-lg border border-gray-200 p-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-        </svg>
-        Payment Information
-      </h3>
-      <div class="text-sm text-gray-600 space-y-3">
-        <p><span class="font-medium text-gray-900">Status:</span> <%= @order.payment_status.humanize %></p>
-        <% if @order.order_payments.any? %>
-          <% payment = @order.order_payments.last %>
-          <p><span class="font-medium text-gray-900">Method:</span> <%= payment.payment_method.name %></p>
-          <% if payment.transaction_id.present? %>
-            <p><span class="font-medium text-gray-900">Transaction ID:</span> <span class="font-mono text-xs"><%= payment.transaction_id %></span></p>
+            <span class="sr-only">Kembali ke Pesanan Saya</span>
           <% end %>
-        <% end %>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <%= link_to "Pesanan Saya", orders_path, class: "text-sm font-medium text-slate-500 hover:text-slate-700" %>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="flex-shrink-0 h-5 w-5 text-slate-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span class="ml-4 text-sm font-medium text-slate-700"><%= @order.order_number %></span>
+        </div>
+      </li>
+    </ol>
+  </nav>
 
-        <% if @order.payment_pending? %>
-          <%= link_to "Retry Payment", payment_checkout_path(@order), class: "mt-4 inline-block px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-colors shadow-sm" %>
-        <% end %>
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-slate-200">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center bg-slate-50">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-slate-900">Detail Pesanan</h3>
+        <p class="mt-1 max-w-2xl text-sm text-slate-500">Dibuat pada <%= @order.created_at.strftime("%d %B %Y, %H:%M") %></p>
+      </div>
+      <div class="flex items-center">
+        <% status_color = case @order.status
+           when 'delivered' then 'bg-green-100 text-green-800'
+           when 'cancelled' then 'bg-red-100 text-red-800'
+           else 'bg-blue-100 text-blue-800'
+           end %>
+        <span class="px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase <%= status_color %>">
+          <%= @order.status.humanize %>
+        </span>
+      </div>
+    </div>
+    
+    <div class="border-t border-slate-200 px-4 py-5 sm:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Informasi Pengiriman</h4>
+          <% address = @order.shipping_address %>
+          <div class="text-sm text-slate-600 bg-slate-50 p-4 rounded-lg border border-slate-100">
+            <p class="font-bold text-slate-900 mb-1"><%= address.full_name %></p>
+            <p><%= address.address_line1 %></p>
+            <% if address.address_line2.present? %><p><%= address.address_line2 %></p><% end %>
+            <p><%= address.city %>, <%= address.state_province %> <%= address.postal_code %></p>
+            <p><%= address.country %></p>
+            <p class="mt-2 text-indigo-600 font-medium"><%= address.phone %></p>
+          </div>
+        </div>
+        
+        <div class="flex flex-col justify-between">
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ringkasan Pembayaran</h4>
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-2 text-sm text-slate-600">
+              <div class="flex justify-between">
+                <span>Subtotal</span>
+                <span><%= number_to_currency(@order.total) %></span>
+              </div>
+              <div class="flex justify-between pt-2 border-t border-slate-200">
+                <span class="font-bold text-slate-900 uppercase tracking-wider mb-4">Total Akhir</span>
+                <span class="font-bold text-indigo-600 text-lg"><%= number_to_currency(@order.total) %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-200">
+      <div class="px-4 py-5 sm:px-6">
+        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Item Pesanan</h4>
+        <div class="flow-root">
+          <ul role="list" class="-my-6 divide-y divide-slate-200">
+            <% @order.order_items.each do |item| %>
+              <li class="py-6 flex">
+                <div class="flex-shrink-0 w-16 h-16 border border-slate-200 rounded-md overflow-hidden">
+                  <% if item.product.product_images.any? %>
+                    <%= image_tag item.product.product_images.first.image, class: "w-full h-full object-center object-cover" %>
+                  <% else %>
+                    <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">
+                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="ml-4 flex-1 flex flex-col">
+                  <div>
+                    <div class="flex justify-between text-base font-medium text-slate-900">
+                      <h5><%= item.product_name %></h5>
+                      <p class="ml-4"><%= number_to_currency(item.total_price) %></p>
+                    </div>
+                    <p class="mt-1 text-sm text-slate-500">
+                      <%= item.quantity %> x <%= number_to_currency(item.unit_price) %>
+                    </p>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
