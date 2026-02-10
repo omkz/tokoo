@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || StoreSetting.store_name %></title>
+    <%= display_meta_tags %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="<%= StoreSetting.meta_description %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="<%= StoreSetting.store_name %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

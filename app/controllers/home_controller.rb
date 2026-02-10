@@ -10,5 +10,10 @@ class HomeController < ApplicationController
     end
     
     @products = scope.order(created_at: :desc).page(params[:page]).per(12)
+
+    set_meta_tags(
+      title: "#{@category ? @category.name : 'Best Online Store'} | #{StoreSetting.store_name}",
+      description: @category ? @category.description : StoreSetting.meta_description
+    )
   end
 end
