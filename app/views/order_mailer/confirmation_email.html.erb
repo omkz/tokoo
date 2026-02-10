@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
+      .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      .header { background: #6366f1; padding: 40px; text-align: center; color: #ffffff; }
+      .content { padding: 40px; }
+      .h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+      .p { font-size: 16px; line-height: 1.6; color: #64748b; margin-bottom: 24px; }
+      .order-summary { background: #f1f5f9; border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+      .item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+      .item-row:last-child { border-bottom: none; }
+      .footer { background: #f8fafc; padding: 32px; text-align: center; font-size: 12px; color: #94a3b8; }
+      .btn { display: inline-block; padding: 14px 28px; background-color: #6366f1; color: white !important; text-decoration: none; border-radius: 8px; font-weight: 700; margin-top: 24px; }
+      .total-row { padding: 20px 0; font-size: 18px; font-weight: 800; display: flex; justify-content: space-between; border-top: 2px solid #e2e8f0; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="h1">Order Confirmed!</h1>
+        <p style="margin: 0; opacity: 0.9;">Thank you for shopping with <%= @store_name %></p>
+      </div>
+      <div class="content">
+        <p class="p">Hello <strong><%= @order.customer_name %></strong>,</p>
+        <p class="p">Our team has received your order and is currently preparing it for shipment. You will receive another update once your items are on the way.</p>
+        
+        <div class="order-summary">
+          <div style="font-size: 12px; font-weight: 800; color: #64748b; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em;">Order Details: <%= @order.order_number %></div>
+          
+          <% @order.order_items.each do |item| %>
+            <div class="item-row">
+              <div style="font-size: 14px; font-weight: 600;"><%= item.quantity %>x <%= item.product_name %></div>
+              <div style="font-size: 14px; font-weight: 700;"><%= number_to_currency(item.total_price, unit: "Rp", precision: 0, delimiter: ".") %></div>
+            </div>
+          <% end %>
+
+          <div class="total-row">
+            <span>Total Amount</span>
+            <span><%= number_to_currency(@order.total, unit: "Rp", precision: 0, delimiter: ".") %></span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 32px;">
+          <h4 style="font-size: 14px; font-weight: 800; margin-bottom: 12px;">Shipping Address:</h4>
+          <p style="font-size: 14px; color: #64748b; line-height: 1.5; margin: 0;">
+            <%= @order.shipping_address&.full_name %><br>
+            <%= @order.shipping_address&.address_line1 %><br>
+            <%= @order.shipping_address&.city %>, <%= @order.shipping_address&.state_province %> <%= @order.shipping_address&.postal_code %><br>
+            <%= @order.shipping_address&.country %>
+          </p>
+        </div>
+
+        <div style="text-align: center;">
+          <a href="<%= root_url %>" class="btn">Return to Store</a>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Time.current.year %> <%= @store_name %>. All rights reserved.</p>
+        <p>If you have any questions, reply to this email or contact us at <%= StoreSetting.store_email %></p>
+      </div>
+    </div>
+  </body>
+</html>

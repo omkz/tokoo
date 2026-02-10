@@ -64,7 +64,10 @@ class StripeWebhooksController < ApplicationController
     # Automatically reduce inventory
     order.reduce_inventory!
 
-    Rails.logger.info "Payment succeeded and inventory reduced for order #{order.order_number}"
+    # Send Confirmation Email
+    OrderMailer.confirmation_email(order).deliver_later
+
+    Rails.logger.info "Payment succeeded, inventory reduced, and email sent for order #{order.order_number}"
   end
 
   def handle_payment_failed(payment_intent)

@@ -57,6 +57,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "webauthn-rails", "~> 0.1.2"
   gem "webauthn", "~> 3.4"
+  gem "letter_opener"
 end
 
 group :development do
