@@ -23,7 +23,10 @@ Rails.application.routes.draw do
     resources :categories
     resources :products
     resources :orders do
-      patch :update_status, on: :member
+      member do
+        patch :ship
+        patch :update_status
+      end
     end
     root to: "dashboard#index"
   end
@@ -51,12 +54,7 @@ Rails.application.routes.draw do
   # Webhook untuk payment gateways
   post "stripe/webhook", to: "stripe_webhooks#create"
 
-  resources :orders, only: [ :index, :show ] do
-    member do
-      patch :ship
-      patch :update_status
-    end
-  end
+  resources :orders, only: [ :index, :show ]
   get "search", to: "search#index", as: :search
 
   # Defines the root path route ("/")
