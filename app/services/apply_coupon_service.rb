@@ -8,11 +8,11 @@ class ApplyCouponService
   def call
     coupon = Coupon.find_by(code: @code, active: true)
     
-    return { success: false, message: "Kode kupon tidak valid." } unless coupon
-    return { success: false, message: "Kupon sudah kadaluarsa." } if coupon.expires_at && coupon.expires_at < Time.current
-    return { success: false, message: "Kupon belum dimulai." } if coupon.starts_at && coupon.starts_at > Time.current
-    return { success: false, message: "Batas pemakaian kupon sudah habis." } if coupon.usage_limit && coupon.usage_count >= coupon.usage_limit
-    return { success: false, message: "Minimal belanja untuk kupon ini adalah #{helpers.number_to_currency(coupon.minimum_purchase)}" } if coupon.minimum_purchase && @subtotal < coupon.minimum_purchase.to_f
+    return { success: false, message: "Invalid coupon code." } unless coupon
+    return { success: false, message: "Coupon has expired." } if coupon.expires_at && coupon.expires_at < Time.current
+    return { success: false, message: "Coupon has not started yet." } if coupon.starts_at && coupon.starts_at > Time.current
+    return { success: false, message: "Coupon usage limit reached." } if coupon.usage_limit && coupon.usage_count >= coupon.usage_limit
+    return { success: false, message: "Minimum purchase for this coupon is #{helpers.number_to_currency(coupon.minimum_purchase)}" } if coupon.minimum_purchase && @subtotal < coupon.minimum_purchase.to_f
 
     discount_amount = calculate_discount(coupon)
     
@@ -20,7 +20,7 @@ class ApplyCouponService
       success: true, 
       coupon: coupon, 
       discount_amount: discount_amount, 
-      message: "Kupon berhasil dipasang!" 
+      message: "Coupon applied successfully!" 
     }
   end
 

@@ -2,10 +2,10 @@
   <div class="md:flex md:items-center md:justify-between mb-8">
     <div class="flex-1 min-w-0">
       <h2 class="text-3xl font-bold leading-7 text-slate-900 sm:text-4xl sm:truncate">
-        Pesanan Saya
+        My Orders
       </h2>
       <p class="mt-1 text-sm text-slate-500">
-        Riwayat belanja lengkap kamu di <%= StoreSetting.store_name %>.
+        Your complete shopping history at <%= StoreSetting.store_name %>.
       </p>
     </div>
   </div>
@@ -75,11 +75,11 @@
       <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      <h3 class="mt-2 text-sm font-medium text-slate-900">Belum ada pesanan</h3>
-      <p class="mt-1 text-sm text-slate-500">Mulai belanja sekarang dan temukan produk menarik!</p>
+      <h3 class="mt-2 text-sm font-medium text-slate-900">No orders yet</h3>
+      <p class="mt-1 text-sm text-slate-500">Start shopping now and find amazing products!</p>
       <div class="mt-6">
         <%= link_to root_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
-          Lihat Produk
+          Browse Products
         <% end %>
       </div>
     </div>

@@ -7,13 +7,13 @@
             <svg class="flex-shrink-0 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="sr-only">Kembali ke Pesanan Saya</span>
+            <span class="sr-only">Back to My Orders</span>
           <% end %>
         </div>
       </li>
       <li>
         <div class="flex items-center">
-          <%= link_to "Pesanan Saya", orders_path, class: "text-sm font-medium text-slate-500 hover:text-slate-700" %>
+          <%= link_to "My Orders", orders_path, class: "text-sm font-medium text-slate-500 hover:text-slate-700" %>
         </div>
       </li>
       <li>
@@ -30,8 +30,8 @@
   <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-slate-200">
     <div class="px-4 py-5 sm:px-6 flex justify-between items-center bg-slate-50">
       <div>
-        <h3 class="text-lg leading-6 font-medium text-slate-900">Detail Pesanan</h3>
-        <p class="mt-1 max-w-2xl text-sm text-slate-500">Dibuat pada <%= @order.created_at.strftime("%d %B %Y, %H:%M") %></p>
+        <h3 class="text-lg leading-6 font-medium text-slate-900">Order Details</h3>
+        <p class="mt-1 max-w-2xl text-sm text-slate-500">Created on <%= @order.created_at.strftime("%d %b %Y, %H:%M") %></p>
       </div>
       <div class="flex items-center">
         <% status_color = case @order.status
@@ -48,7 +48,7 @@
     <div class="border-t border-slate-200 px-4 py-5 sm:px-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Informasi Pengiriman</h4>
+          <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Shipping Information</h4>
           <% address = @order.shipping_address %>
           <div class="text-sm text-slate-600 bg-slate-50 p-4 rounded-lg border border-slate-100">
             <p class="font-bold text-slate-900 mb-1"><%= address.full_name %></p>
@@ -62,14 +62,14 @@
         
         <div class="flex flex-col justify-between">
           <div>
-            <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ringkasan Pembayaran</h4>
+            <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Payment Summary</h4>
             <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-2 text-sm text-slate-600">
               <div class="flex justify-between">
                 <span>Subtotal</span>
                 <span><%= number_to_currency(@order.total) %></span>
               </div>
               <div class="flex justify-between pt-2 border-t border-slate-200">
-                <span class="font-bold text-slate-900 uppercase tracking-wider mb-4">Total Akhir</span>
+                <span class="font-bold text-slate-900 uppercase tracking-wider">Final Total</span>
                 <span class="font-bold text-indigo-600 text-lg"><%= number_to_currency(@order.total) %></span>
               </div>
             </div>
@@ -80,7 +80,8 @@
 
     <div class="border-t border-slate-200">
       <div class="px-4 py-5 sm:px-6">
-        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Item Pesanan</h4>
+        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Order Items</h4>
+ pieces. 
         <div class="flow-root">
           <ul role="list" class="-my-6 divide-y divide-slate-200">
             <% @order.order_items.each do |item| %>

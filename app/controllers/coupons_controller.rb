@@ -29,6 +29,6 @@ class CouponsController < ApplicationController
 
   def remove
     session.delete(:applied_coupon_id)
-    redirect_back fallback_location: cart_path, notice: "Kupon dihapus."
+    redirect_back fallback_location: cart_path, notice: "Coupon removed."
   end
 end
