@@ -2,7 +2,10 @@ class StoreSetting < ApplicationRecord
   validates :key, presence: true, uniqueness: true
 
   def self.get(key, default = nil)
-    find_by(key: key)&.typed_value || default
+    # Use request-level memoization (reset per request via Rails cache or simple hash if needed)
+    # For now, let's use a class variable hash for process-level caching
+    @cache ||= {}
+    @cache[key] ||= find_by(key: key)&.typed_value || default
   end
 
   def self.set(key, value, type = 'string')
@@ -10,6 +13,11 @@ class StoreSetting < ApplicationRecord
     setting.value_type = type
     setting.value = value.to_s
     setting.save!
+    clear_cache!
+  end
+
+  def self.clear_cache!
+    @cache = {}
   end
 
   # Convenience Methods
