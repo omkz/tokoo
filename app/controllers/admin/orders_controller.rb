@@ -29,6 +29,10 @@ module Admin
           # Optionally create shipment record if not exists
         end
 
+        if new_status == 'shipped'
+          OrderMailer.shipping_update_email(@order).deliver_later
+        end
+
         redirect_to admin_order_path(@order), notice: "Order status updated to #{new_status.humanize}."
       else
         redirect_to admin_order_path(@order), alert: "Failed to update status."
@@ -44,6 +48,7 @@ module Admin
           to_status: 'shipped',
           note: "Marked as shipped by admin"
         )
+        OrderMailer.shipping_update_email(@order).deliver_later
         redirect_to admin_order_path(@order), notice: "Order marked as shipped."
       else
         redirect_to admin_order_path(@order), alert: "Failed to update order."

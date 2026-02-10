@@ -177,6 +177,9 @@ class CheckoutsController < ApplicationController
                 client_secret: result[:client_secret],
                 payment_intent_id: result[:payment_intent_id]
               }
+            elsif payment_method.code == "bank_transfer"
+              OrderMailer.payment_instructions_email(@order).deliver_later
+              render json: { success: true, redirect: checkout_path(@order) }
             else
               render json: { success: true, redirect: checkout_path(@order) }
             end
@@ -189,9 +192,13 @@ class CheckoutsController < ApplicationController
             if payment_method.code == "stripe_cc"
               redirect_to payment_checkout_path(@order, payment_intent: result[:payment_intent_id]),
                           notice: "Payment initialized. Please complete your card details."
+            elsif payment_method.code == "bank_transfer"
+              OrderMailer.payment_instructions_email(@order).deliver_later
+              redirect_to checkout_path(@order),
+                          notice: "Order placed. Payment instructions have been sent to your email."
             else
               redirect_to checkout_path(@order),
-                          notice: "Order placed. Please complete bank transfer payment."
+                          notice: "Order placed successfully."
             end
           else
             redirect_to payment_checkout_path(@order), alert: "Payment error: #{result[:error]}"

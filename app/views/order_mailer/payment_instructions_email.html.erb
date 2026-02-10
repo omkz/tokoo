@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
+      .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      .header { background: #6366f1; padding: 40px; text-align: center; color: #ffffff; }
+      .content { padding: 40px; }
+      .h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+      .p { font-size: 16px; line-height: 1.6; color: #64748b; margin-bottom: 24px; }
+      .bank-instructions { background: #f1f5f9; border-radius: 12px; padding: 24px; margin-bottom: 32px; border: 2px dashed #cbd5e1; }
+      .footer { background: #f8fafc; padding: 32px; text-align: center; font-size: 12px; color: #94a3b8; }
+      .btn { display: inline-block; padding: 14px 28px; background-color: #6366f1; color: white !important; text-decoration: none; border-radius: 8px; font-weight: 700; margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="h1">Payment Instructions</h1>
+        <p style="margin: 0; opacity: 0.9;">Order #<%= @order.order_number %> - Awaiting Payment</p>
+      </div>
+      <div class="content">
+        <p class="p">Hello <strong><%= @order.customer_name %></strong>,</p>
+        <p class="p">Thank you for your order! To process your purchase, please complete the bank transfer payment using the details below:</p>
+        
+        <div class="bank-instructions">
+          <div style="font-size: 12px; font-weight: 800; color: #64748b; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em;">Transfer Details:</div>
+          <div style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Amount to Transfer: <%= number_to_currency(@order.total, unit: "Rp", precision: 0, delimiter: ".") %></div>
+          
+          <% if @bank_details.present? %>
+            <div style="font-size: 14px; color: #475569; line-height: 1.6; white-space: pre-wrap;"><%= @bank_details %></div>
+          <% else %>
+            <div style="font-size: 14px; color: #475569; line-height: 1.6;">
+              Please transfer to our Bank Account and send proof of payment to our WhatsApp or email.
+            </div>
+          <% end %>
+        </div>
+
+        <p class="p">Once you've made the transfer, please reply to this email or contact us with your proof of payment so we can begin preparing your shipment.</p>
+
+        <div style="text-align: center;">
+          <a href="<%= order_url(@order) if defined?(order_url) %>" class="btn">View Order Detail</a>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Time.current.year %> <%= @store_name %>. All rights reserved.</p>
+        <p>If you have any questions, contact us at <%= StoreSetting.store_email %></p>
+      </div>
+    </div>
+  </body>
+</html>

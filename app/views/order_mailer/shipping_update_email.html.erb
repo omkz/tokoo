@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
+      .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      .header { background: #10b981; padding: 40px; text-align: center; color: #ffffff; }
+      .content { padding: 40px; }
+      .h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+      .p { font-size: 16px; line-height: 1.6; color: #64748b; margin-bottom: 24px; }
+      .order-summary { background: #f1f5f9; border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+      .item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+      .item-row:last-child { border-bottom: none; }
+      .footer { background: #f8fafc; padding: 32px; text-align: center; font-size: 12px; color: #94a3b8; }
+      .btn { display: inline-block; padding: 14px 28px; background-color: #10b981; color: white !important; text-decoration: none; border-radius: 8px; font-weight: 700; margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="h1">Your Order is on the Way! 🚀</h1>
+        <p style="margin: 0; opacity: 0.9;">Order #<%= @order.order_number %> has been shipped</p>
+      </div>
+      <div class="content">
+        <p class="p">Great news <strong><%= @order.customer_name %></strong>!</p>
+        <p class="p">Your order has been processed and is now headed your way. We hope you're excited to receive your items!</p>
+        
+        <div class="order-summary">
+          <div style="font-size: 12px; font-weight: 800; color: #64748b; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em;">Shipped Items:</div>
+          
+          <% @order.order_items.each do |item| %>
+            <div class="item-row">
+              <div style="font-size: 14px; font-weight: 600;"><%= item.quantity %>x <%= item.product_name %></div>
+              <div style="font-size: 14px; font-weight: 400; color: #64748b;"><%= item.variant_name if item.variant_name.present? %></div>
+            </div>
+          <% end %>
+        </div>
+
+        <p class="p">You can track your order status in your account dashboard.</p>
+
+        <div style="text-align: center;">
+          <a href="<%= order_url(@order) if defined?(order_url) %>" class="btn">Track Order Status</a>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Time.current.year %> <%= @store_name %>. All rights reserved.</p>
+        <p>If you have any questions, contact us at <%= StoreSetting.store_email %></p>
+      </div>
+    </div>
+  </body>
+</html>
