@@ -60,6 +60,9 @@ Rails.application.routes.draw do
   resources :orders, only: [ :index, :show ]
   get "search", to: "search#index", as: :search
 
+  post "coupons/apply", to: "coupons#apply", as: :apply_coupon
+  delete "coupons/remove", to: "coupons#remove", as: :remove_coupon
+
   # Defines the root path route ("/")
   root "home#index"
 end

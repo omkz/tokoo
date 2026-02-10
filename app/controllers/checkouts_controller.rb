@@ -8,6 +8,16 @@ class CheckoutsController < ApplicationController
     @shipping_address = @order.order_addresses.build(address_type: "shipping")
     @billing_address = @order.order_addresses.build(address_type: "billing")
     @shipping_methods = ShippingMethod.where(active: true)
+    
+    # Check for applied coupon
+    @discount_amount = 0
+    if session[:applied_coupon_id]
+      coupon = Coupon.find_by(id: session[:applied_coupon_id])
+      if coupon
+        result = ApplyCouponService.new(code: coupon.code, subtotal: @cart.total_price, user: current_user).call
+        @discount_amount = result[:discount_amount] if result[:success]
+      end
+    end
   end
 
   def create
@@ -54,10 +64,29 @@ class CheckoutsController < ApplicationController
       end
     end
 
-    # Calculate final total: subtotal + shipping + tax
-    @order.total = @order.subtotal + shipping_cost + tax_amount
+    # Calculate final total: subtotal + shipping + tax - discount
+    @discount_amount = 0
+    if session[:applied_coupon_id]
+      coupon = Coupon.find_by(id: session[:applied_coupon_id])
+      if coupon
+        result = ApplyCouponService.new(code: coupon.code, subtotal: @order.subtotal, user: current_user).call
+        if result[:success]
+          @discount_amount = result[:discount_amount]
+          @order.discount_amount = @discount_amount
+          @order.coupons << coupon
+        end
+      end
+    end
+
+    @order.total = @order.subtotal + shipping_cost + tax_amount - @discount_amount
 
     if @order.save
+      # Increment coupon usage count
+      if session[:applied_coupon_id]
+        coupon = Coupon.find_by(id: session[:applied_coupon_id])
+        coupon.increment!(:usage_count) if coupon
+        session.delete(:applied_coupon_id)
+      end
       # Move cart items to order items
       @cart.cart_items.each do |cart_item|
         product = cart_item.product

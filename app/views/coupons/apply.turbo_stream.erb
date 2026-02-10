@@ -1,0 +1,27 @@
+<%= turbo_stream.replace "checkout-summary" do %>
+  <%= render partial: "checkouts/order_summary", locals: { cart: current_cart, discount_amount: @discount_amount, coupon_message: @message, coupon_success: @success } %>
+<% end %>
+
+<% if @success %>
+  <%= turbo_stream.append "flash-messages" do %>
+    <div class="fixed top-4 right-4 z-50 animate-bounce-in">
+      <div class="bg-green-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="font-medium"><%= @message %></span>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append "flash-messages" do %>
+    <div class="fixed top-4 right-4 z-50 animate-bounce-in">
+      <div class="bg-red-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="font-medium"><%= @message %></span>
+      </div>
+    </div>
+  <% end %>
+<% end %>

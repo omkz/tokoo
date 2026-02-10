@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold mb-8">Checkout</h1>
 
-  <%= form_with model: @order, url: checkouts_path, data: { turbo: false } do |f| %>
+  <%= form_with model: @order, url: checkouts_path, html: { id: "checkout-form" }, data: { turbo: false } do |f| %>
     <% if @order.errors.any? %>
       <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
         <h2 class="text-red-700 font-bold mb-2">
@@ -80,73 +80,31 @@
 
       <!-- Order Summary & Shipping Method -->
       <div class="space-y-6">
-        <div class="bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-4">Shipping Method</h2>
+        <div class="bg-white p-6 rounded-lg shadow border border-slate-100">
+          <h2 class="text-xl font-semibold mb-4 text-slate-900 flex items-center gap-2">
+            <svg class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 17v-2m3 2v-2m3 2v-2" />
+            </svg>
+            Metode Pengiriman
+          </h2>
           <div class="space-y-4">
             <% if @shipping_methods.any? %>
               <% @shipping_methods.each do |method| %>
-                <div class="flex items-center">
-                  <%= radio_button_tag "order[shipping_method_id]", method.id, false, class: "h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500", required: true %>
-                  <%= label_tag "order_shipping_method_id_#{method.id}", class: "ml-3 block text-sm font-medium text-gray-700 flex justify-between w-full" do %>
-                    <span><%= method.name %></span>
-                    <span class="text-gray-500"><%= number_to_currency(method.base_price) %></span>
-                  <% end %>
+                <div class="flex items-center p-4 border rounded-xl hover:bg-slate-50 transition-colors">
+                  <%= f.radio_button :shipping_method_id, method.id, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300", checked: true %>
+                  <label for="order_shipping_method_id_<%= method.id %>" class="ml-3 block text-sm font-medium text-slate-700">
+                    <%= method.name %> - <%= number_to_currency(method.price) %>
+                  </label>
                 </div>
               <% end %>
             <% else %>
-              <p class="text-sm text-gray-500">No shipping methods available.</p>
+              <p class="text-sm text-slate-500">Metode pengiriman tidak tersedia.</p>
             <% end %>
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
-          <div class="flow-root">
-            <ul role="list" class="-my-4 divide-y divide-gray-200">
-              <% @cart.cart_items.each do |item| %>
-                <li class="flex py-4">
-                  <div class="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <% if item.product.primary_image %>
-                       <img src="<%= item.product.image_url %>" alt="<%= item.product.name %>" class="h-full w-full object-cover object-center">
-                    <% else %>
-                       <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-400">No Img</div>
-                    <% end %>
-                  </div>
-                  <div class="ml-4 flex flex-1 flex-col">
-                    <div>
-                      <div class="flex justify-between text-base font-medium text-gray-900">
-                        <h3><%= item.product.name %></h3>
-                        <p class="ml-4"><%= number_to_currency(item.subtotal) %></p>
-                      </div>
-                      <p class="mt-1 text-sm text-gray-500"><%= item.product_variant&.name %></p>
-                    </div>
-                    <div class="flex flex-1 items-end justify-between text-sm">
-                      <p class="text-gray-500">Qty <%= item.quantity %></p>
-                    </div>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="border-t border-gray-200 mt-6 pt-4 space-y-2">
-            <div class="flex justify-between text-base font-medium text-gray-900">
-              <p>Subtotal</p>
-              <p><%= number_to_currency(@cart.total_price) %></p>
-            </div>
-            <div class="flex justify-between text-sm text-gray-500">
-              <p>Shipping</p>
-              <p>Calculated at next step</p>
-            </div>
-            <div class="flex justify-between text-base font-bold text-gray-900 pt-2 border-t mt-2">
-              <p>Total</p>
-              <p><%= number_to_currency(@cart.total_price) %></p>
-            </div>
-          </div>
-
-          <div class="mt-6">
-            <%= f.submit "Place Order", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-          </div>
-        </div>
+        <%= render partial: "order_summary", locals: { cart: @cart, discount_amount: @discount_amount || 0, coupon_success: !!session[:applied_coupon_id] } %>
       </div>
     </div>
   <% end %>
