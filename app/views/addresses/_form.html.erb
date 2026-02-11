@@ -1,0 +1,71 @@
+<%= form_with(model: address, class: "space-y-6") do |f| %>
+  <% if address.errors.any? %>
+    <div class="bg-red-50 text-red-600 p-4 rounded-xl text-sm">
+      <h4 class="font-bold mb-2"><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h4>
+      <ul class="list-disc list-inside">
+        <% address.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="md:col-span-2">
+      <%= f.label :address_type, "Address Label", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.select :address_type, ['Home', 'Office', 'Other'], {}, class: "w-full md:w-1/2 rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :full_name, class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :full_name, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :phone, class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.telephone_field :phone, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div class="md:col-span-2">
+      <%= f.label :address_line1, "Address Line 1", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :address_line1, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500", placeholder: "Street address, P.O. box, etc." %>
+    </div>
+
+    <div class="md:col-span-2">
+      <%= f.label :address_line2, "Address Line 2 (Optional)", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :address_line2, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500", placeholder: "Apartment, suite, unit, building, floor, etc." %>
+    </div>
+
+    <div>
+      <%= f.label :city, class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :city, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :state_province, "State / Province", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :state_province, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :postal_code, class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.text_field :postal_code, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :country, class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.country_select :country, { priority_countries: ["ID", "SG", "MY"] }, { class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" } %>
+    </div>
+
+    <div class="md:col-span-2 mt-2">
+      <div class="flex items-center">
+        <%= f.check_box :is_default, class: "rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 h-5 w-5" %>
+        <span class="ml-2 text-sm text-slate-700">Set as default shipping address</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3 mt-8">
+    <%= link_to "Cancel", addresses_path, class: "px-6 py-2 border border-slate-300 rounded-xl text-slate-600 font-semibold hover:bg-slate-50 transition" %>
+    <%= f.submit class: "px-6 py-2 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
+  </div>
+<% end %>

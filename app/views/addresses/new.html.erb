@@ -1,0 +1,12 @@
+<% content_for :title, "Add New Address" %>
+
+<div class="max-w-3xl mx-auto px-4 py-12">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-slate-800">Add New Address</h1>
+    <p class="text-slate-500">Add a new delivery location to your address book.</p>
+  </div>
+
+  <div class="glass-card p-8">
+    <%= render "form", address: @address %>
+  </div>
+</div>

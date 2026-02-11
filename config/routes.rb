@@ -16,7 +16,11 @@ Rails.application.routes.draw do
     post :get_options, on: :collection
   end
   resource :session
+  resource :session
   resources :passwords, param: :token
+  
+  resource :profile, only: [:show, :update]
+  resources :addresses
 
   namespace :admin do
     get "dashboard", to: "dashboard#index"
