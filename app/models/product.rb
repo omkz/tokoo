@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  has_paper_trail
+  
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
   has_many :product_images, -> { order(position: :asc) }, dependent: :destroy

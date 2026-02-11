@@ -15,6 +15,13 @@ class SessionsController < ApplicationController
         redirect_to after_authentication_url
       end
     else
+      LoginActivity.create!(
+        identity: params[:email_address],
+        ip_address: request.remote_ip,
+        user_agent: request.user_agent,
+        success: false,
+        failure_reason: "Invalid credentials"
+      )
       redirect_to new_session_path, alert: "Try another email address or password."
     end
   end

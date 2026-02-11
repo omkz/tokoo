@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Authentication
   
+  before_action :set_paper_trail_whodunnit
+  
   helper_method :current_user, :current_cart, :display_meta_tags, :set_meta_tags
   
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.

@@ -78,8 +78,34 @@
           <% end %>
         <% end %>
       </div>
+      </div>
     </div>
   </section>
+
+  <!-- Subcategory Filter Bar (Visible when main category is selected) -->
+  <% if @category && @category.subcategories.any? %>
+    <section class="sticky top-[72px] z-30 bg-slate-50/90 backdrop-blur-md border-b border-slate-200 py-3">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 overflow-x-auto no-scrollbar">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Filter by:</span>
+          
+          <%= link_to root_path(category: @category.slug, anchor: "products"), 
+              class: "px-4 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap #{params[:category] == @category.slug ? 'bg-white text-indigo-600 shadow-sm border border-indigo-100' : 'text-slate-500 hover:text-indigo-600 hover:bg-white'}",
+              data: { turbo_frame: "products_frame" } do %>
+            All <%= @category.name %>
+          <% end %>
+
+          <% @category.subcategories.ordered.each do |sub| %>
+            <%= link_to root_path(category: sub.slug, anchor: "products"), 
+                class: "px-4 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap #{params[:category] == sub.slug ? 'bg-white text-indigo-600 shadow-sm border border-indigo-100' : 'text-slate-500 hover:text-indigo-600 hover:bg-white'}",
+                data: { turbo_frame: "products_frame" } do %>
+              <%= sub.name %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  <% end %>
 
   <!-- Featured Products Section -->
   <section class="py-20 bg-white" id="products">

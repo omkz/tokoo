@@ -3,7 +3,7 @@ module Admin
     before_action :set_category, only: [:edit, :update, :destroy]
 
     def index
-      @categories = Category.order(position: :asc)
+      @categories = Category.order(position: :asc).page(params[:page]).per(20)
     end
 
     def new

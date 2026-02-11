@@ -72,3 +72,7 @@ group :test do
 end
 
 gem "stripe", "~> 18.3"
+
+gem "faker", "~> 3.6", groups: [:development, :test]
+
+gem "paper_trail", "~> 17.0"

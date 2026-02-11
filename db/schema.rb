@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_10_000335) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_11_065956) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -146,6 +146,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_000335) do
     t.index ["product_variant_id"], name: "index_inventory_movements_on_product_variant_id"
     t.index ["reference_number"], name: "index_inventory_movements_on_reference_number"
     t.index ["user_id"], name: "index_inventory_movements_on_user_id"
+  end
+
+  create_table "login_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "failure_reason"
+    t.string "identity"
+    t.string "ip_address"
+    t.boolean "success"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_login_activities_on_user_id"
   end
 
   create_table "order_addresses", force: :cascade do |t|
@@ -487,6 +499,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_000335) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -503,6 +516,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_000335) do
     t.index ["product_option_value_id"], name: "index_variant_option_values_on_product_option_value_id"
     t.index ["product_variant_id", "product_option_value_id"], name: "index_variant_option_values_uniqueness", unique: true
     t.index ["product_variant_id"], name: "index_variant_option_values_on_product_variant_id"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.datetime "created_at"
+    t.string "event", null: false
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
+    t.text "object"
+    t.string "whodunnit"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "webauthn_credentials", force: :cascade do |t|
@@ -540,6 +563,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_000335) do
   add_foreign_key "inventory_movements", "product_variants"
   add_foreign_key "inventory_movements", "products"
   add_foreign_key "inventory_movements", "users"
+  add_foreign_key "login_activities", "users"
   add_foreign_key "order_addresses", "orders"
   add_foreign_key "order_coupons", "coupons"
   add_foreign_key "order_coupons", "orders"

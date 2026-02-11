@@ -3,7 +3,7 @@ module Admin
     before_action :set_product, only: [:show, :edit, :update, :destroy]
 
     def index
-      @products = Product.order(created_at: :desc)
+      @products = Product.order(created_at: :desc).page(params[:page]).per(20)
     end
 
     def show

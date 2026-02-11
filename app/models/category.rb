@@ -11,6 +11,11 @@ class Category < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :main, -> { where(parent_id: nil) }
   scope :ordered, -> { order(position: :asc) }
+  
+  def self.tree_ids_for(category)
+    return [] unless category
+    [category.id] + category.subcategories.active.pluck(:id)
+  end
 
   before_validation :generate_slug, if: -> { slug.blank? && name.present? }
 

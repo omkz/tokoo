@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  has_paper_trail
+  
   belongs_to :user, optional: true # allow guest checkout
   
   has_many :order_items, dependent: :destroy
