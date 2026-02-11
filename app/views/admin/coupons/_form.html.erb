@@ -1,0 +1,94 @@
+<%= form_with(model: [:admin, coupon], class: "space-y-6") do |f| %>
+  <% if coupon.errors.any? %>
+    <div class="bg-red-50 text-red-600 p-4 rounded-xl text-sm">
+      <h4 class="font-bold mb-2"><%= pluralize(coupon.errors.count, "error") %> prohibited this coupon from being saved:</h4>
+      <ul class="list-disc list-inside">
+        <% coupon.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="glass-card p-6 md:col-span-2">
+      <h4 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">General Information</h4>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <%= f.label :code, class: "block text-sm font-medium text-slate-700 mb-1" %>
+          <%= f.text_field :code, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500", placeholder: "e.g. SUMMERSALE2024" %>
+          <p class="text-xs text-slate-500 mt-1">Wait, code must be unique and is case-sensitive.</p>
+        </div>
+
+        <div>
+           <%= f.label :active, class: "block text-sm font-medium text-slate-700 mb-1" %>
+           <div class="flex items-center mt-2">
+             <%= f.check_box :active, class: "rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 h-5 w-5" %>
+             <span class="ml-2 text-sm text-slate-600">Enable this coupon</span>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6">
+      <h4 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Discount Settings</h4>
+      
+      <div class="space-y-4">
+        <div>
+          <%= f.label :discount_type, class: "block text-sm font-medium text-slate-700 mb-1" %>
+          <%= f.select :discount_type, Coupon.discount_types.keys.map { |k| [k.humanize, k] }, {}, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+
+        <div>
+          <%= f.label :discount_value, "Discount Amount / Percentage", class: "block text-sm font-medium text-slate-700 mb-1" %>
+          <%= f.number_field :discount_value, step: "0.01", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        
+        <div>
+          <%= f.label :maximum_discount, "Maximum Discount Amount", class: "block text-sm font-medium text-slate-700 mb-1" %>
+          <%= f.number_field :maximum_discount, step: "0.01", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+          <p class="text-xs text-slate-500 mt-1">Only applicable for percentage discounts.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6">
+      <h4 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Restrictions & Limits</h4>
+      
+      <div class="space-y-4">
+        <div>
+          <%= f.label :minimum_purchase, class: "block text-sm font-medium text-slate-700 mb-1" %>
+          <%= f.number_field :minimum_purchase, step: "0.01", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= f.label :usage_limit, "Total Usage Limit", class: "block text-sm font-medium text-slate-700 mb-1" %>
+            <%= f.number_field :usage_limit, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+          </div>
+          <div>
+            <%= f.label :per_user_limit, "Limit Per User", class: "block text-sm font-medium text-slate-700 mb-1" %>
+            <%= f.number_field :per_user_limit, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= f.label :starts_at, class: "block text-sm font-medium text-slate-700 mb-1" %>
+            <%= f.datetime_field :starts_at, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+          </div>
+          <div>
+            <%= f.label :expires_at, class: "block text-sm font-medium text-slate-700 mb-1" %>
+            <%= f.datetime_field :expires_at, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3 mt-8">
+    <%= link_to "Cancel", admin_coupons_path, class: "px-6 py-2 border border-slate-300 rounded-xl text-slate-600 font-semibold hover:bg-slate-50 transition" %>
+    <%= f.submit class: "px-6 py-2 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition cursor-pointer" %>
+  </div>
+<% end %>

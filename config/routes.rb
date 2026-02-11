@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :login_activities, only: [:index]
     resources :audit_logs, only: [:index]
+    resources :coupons
     resources :products
     resources :orders do
       member do

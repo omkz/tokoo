@@ -1,0 +1,88 @@
+<% content_for :title, "Coupons" %>
+
+<div class="glass-card p-8">
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h3 class="text-xl font-bold">Coupons</h3>
+      <p class="text-sm text-slate-500">Manage discounts and promotional codes.</p>
+    </div>
+    <a href="<%= new_admin_coupon_path %>" class="px-4 py-2 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition flex items-center">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      Create Coupon
+    </a>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead>
+        <tr class="text-slate-400 text-xs font-bold uppercase tracking-widest border-b border-slate-100">
+          <th class="pb-4 px-4">Code</th>
+          <th class="pb-4 px-4">Discount</th>
+          <th class="pb-4 px-4">Usage</th>
+          <th class="pb-4 px-4">Valid Period</th>
+          <th class="pb-4 px-4">Status</th>
+          <th class="pb-4 px-4 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-50">
+        <% @coupons.each do |coupon| %>
+          <tr class="group hover:bg-slate-50 transition">
+            <td class="py-4 px-4">
+              <span class="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-1 rounded"><%= coupon.code %></span>
+            </td>
+            <td class="py-4 px-4">
+              <p class="text-sm font-bold text-slate-800">
+                <% if coupon.percentage? %>
+                   <%= number_to_percentage(coupon.discount_value, precision: 0) %> OFF
+                <% else %>
+                   -<%= number_to_currency(coupon.discount_value, unit: "Rp ", precision: 0, delimiter: ".") %>
+                <% end %>
+              </p>
+              <% if coupon.minimum_purchase.present? %>
+                <p class="text-[10px] text-slate-500">Min. <%= number_to_currency(coupon.minimum_purchase, unit: "Rp ", precision: 0, delimiter: ".") %></p>
+              <% end %>
+            </td>
+            <td class="py-4 px-4">
+              <div class="flex items-center text-sm text-slate-600">
+                <span><%= coupon.usage_count %></span>
+                <span class="text-slate-400 mx-1">/</span>
+                <span><%= coupon.usage_limit || "∞" %></span>
+              </div>
+            </td>
+            <td class="py-4 px-4">
+              <div class="text-xs text-slate-500">
+                <% if coupon.starts_at %>
+                  <p>Start: <%= coupon.starts_at.strftime("%d %b %Y") %></p>
+                <% end %>
+                <% if coupon.expires_at %>
+                  <p class="<%= coupon.expires_at < Time.current ? 'text-red-500' : '' %>">End: <%= coupon.expires_at.strftime("%d %b %Y") %></p>
+                <% else %>
+                  <p>No Expiry</p>
+                <% end %>
+              </div>
+            </td>
+            <td class="py-4 px-4">
+              <span class="inline-block px-2 py-1 text-[10px] font-bold rounded-md <%= coupon.active? ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' %> uppercase">
+                <%= coupon.active? ? 'Active' : 'Inactive' %>
+              </span>
+            </td>
+            <td class="py-4 px-4 text-right">
+              <div class="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition">
+                <a href="<%= edit_admin_coupon_path(coupon) %>" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </a>
+                <%= button_to admin_coupon_path(coupon), method: :delete, data: { confirm: 'Are you sure?' }, class: "p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" do %>
+                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="mt-4">
+    <%= paginate @coupons %>
+  </div>
+</div>
