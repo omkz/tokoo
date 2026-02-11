@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :orders, dependent: :nullify
+  has_many :addresses, dependent: :destroy
   has_many :carts, dependent: :nullify
   
   scope :admin, -> { where(admin: true) }
