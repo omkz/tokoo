@@ -104,6 +104,7 @@
   <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
     <h3 class="text-lg font-bold mb-4">Adjust Stock</h3>
     <%= form_with url: "#", method: :patch, id: "adjustForm", class: "space-y-4" do %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token, id: 'authenticity_token' %>
       <div>
         <label class="block text-sm font-semibold text-slate-700 mb-2">Product</label>
         <div id="modalProductName" class="text-slate-600"></div>
