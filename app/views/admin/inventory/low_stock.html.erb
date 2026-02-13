@@ -1,0 +1,70 @@
+<% content_for :title, "Low Stock Alerts" %>
+
+<div class="glass-card p-8">
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h3 class="text-xl font-bold text-amber-700">⚠️ Low Stock Alerts</h3>
+      <p class="text-sm text-slate-500">Products and variants that need restocking</p>
+    </div>
+    <%= link_to admin_inventory_index_path, class: "px-4 py-2 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition" do %>
+      ← Back to Inventory
+    <% end %>
+  </div>
+
+  <% if @low_stock_products.any? || @low_stock_variants.any? %>
+    <!-- Low Stock Products -->
+    <% if @low_stock_products.any? %>
+      <div class="mb-8">
+        <h4 class="text-lg font-bold text-slate-800 mb-4">Products</h4>
+        <div class="space-y-3">
+          <% @low_stock_products.each do |product| %>
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+              <div class="flex-1">
+                <div class="font-bold text-slate-800"><%= product.name %></div>
+                <div class="text-sm text-slate-600 mt-1">SKU: <%= product.sku %></div>
+              </div>
+              <div class="text-center mx-4">
+                <div class="text-2xl font-bold text-amber-600"><%= product.stock_quantity %></div>
+                <div class="text-xs text-slate-500">Threshold: <%= product.low_stock_threshold %></div>
+              </div>
+              <%= link_to "Adjust Stock", adjust_admin_inventory_path(product), class: "px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-700 transition" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Low Stock Variants -->
+    <% if @low_stock_variants.any? %>
+      <div>
+        <h4 class="text-lg font-bold text-slate-800 mb-4">Product Variants</h4>
+        <div class="space-y-3">
+          <% @low_stock_variants.each do |variant| %>
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+              <div class="flex-1">
+                <div class="font-bold text-slate-800"><%= variant.product.name %></div>
+                <div class="text-sm text-slate-600 mt-1">
+                  Variant: <%= variant.name || variant.sku %> • SKU: <%= variant.sku %>
+                </div>
+              </div>
+              <div class="text-center mx-4">
+                <div class="text-2xl font-bold text-amber-600"><%= variant.stock_quantity %></div>
+                <div class="text-xs text-slate-500">Threshold: <%= variant.low_stock_threshold || variant.product.low_stock_threshold %></div>
+              </div>
+              <%= link_to "Adjust Stock", adjust_admin_inventory_path(variant.product, variant_id: variant.id), class: "px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-700 transition" %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mt-4">
+          <%= paginate @low_stock_variants, param_name: :variant_page %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-12">
+      <svg class="w-16 h-16 text-emerald-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <h3 class="text-lg font-bold text-slate-800 mb-2">All Stock Levels Are Good!</h3>
+      <p class="text-slate-500">No products or variants are below their stock threshold.</p>
+    </div>
+  <% end %>
+</div>

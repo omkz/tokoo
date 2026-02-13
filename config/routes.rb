@@ -18,24 +18,35 @@ Rails.application.routes.draw do
   resource :session
   resource :session
   resources :passwords, param: :token
-  
-  resource :profile, only: [:show, :update]
+
+  resource :profile, only: [ :show, :update ]
   resources :addresses
 
   namespace :admin do
     get "dashboard", to: "dashboard#index"
     resources :categories
-    resources :login_activities, only: [:index]
-    resources :audit_logs, only: [:index]
+    resources :login_activities, only: [ :index ]
+    resources :audit_logs, only: [ :index ]
     resources :coupons
     resources :products
     resources :orders do
       member do
         patch :ship
         patch :update_status
+        patch :cancel
       end
     end
-    resources :store_settings, only: [:index] do
+    resources :inventory, only: [ :index ] do
+      collection do
+        get :low_stock
+        get :history
+      end
+      member do
+        get :adjust
+        patch :update_stock
+      end
+    end
+    resources :store_settings, only: [ :index ] do
       patch :update_all, on: :collection
     end
     root to: "dashboard#index"
