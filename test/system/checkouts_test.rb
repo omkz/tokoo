@@ -20,41 +20,41 @@ class CheckoutsTest < ApplicationSystemTestCase
 
   test "visiting the checkout flow" do
     visit "/"
-    
+
     # Simulate adding to cart (assuming there's a way from product page)
     visit "/products/#{@product.slug}" # Using slug as per route definition
-    
+
     assert_selector "h1", text: "Test Laptop"
     find("button", text: "Add to Cart").click
-    
+
     # Go to checkout
     visit "/checkouts/new"
-    
+
     assert_selector "h1", text: "Checkout"
-    
+
     # Fill in customer info
     fill_in "Email", with: "test@example.com"
     fill_in "Full Name", with: "Test User"
     fill_in "Phone Number", with: "1234567890"
-    
+
     # Fill in shipping address
     fill_in "Recipient Name", with: "Test Recipient"
     fill_in "Address Line 1", with: "123 Test St"
     fill_in "City", with: "Test City"
     fill_in "Postal Code", with: "12345"
     fill_in "Country", with: "Indonesia"
-    
+
     # Select shipping method
     choose "Standard Shipping"
-    
+
     # Submit
     click_on "Place Order"
-    
+
     # Verify redirection and content
     assert_text "Thank you!"
     assert_text "It's on the way!"
     assert_text "Test Laptop"
-    
+
     # Verify Order created
     order = Order.last
     assert_equal "test@example.com", order.customer_email

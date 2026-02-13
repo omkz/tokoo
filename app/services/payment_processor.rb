@@ -14,11 +14,11 @@ class PaymentProcessor
 
   protected
 
-  def create_order_payment(status: 'pending', transaction_id: nil, metadata: {})
+  def create_order_payment(status: "pending", transaction_id: nil, metadata: {})
     @order.order_payments.create!(
       payment_method: @payment_method,
       amount: @order.total,
-      currency: 'IDR',
+      currency: "IDR",
       status: status,
       transaction_id: transaction_id,
       metadata: metadata

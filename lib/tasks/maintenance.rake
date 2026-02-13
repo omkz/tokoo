@@ -3,9 +3,9 @@ namespace :maintenance do
   task cleanup_logs: :environment do
     # Retention period: 1 year (365 days)
     retention_period = 1.year.ago
-    
+
     puts "Starting log cleanup..."
-    
+
     # Clean LoginActivity
     if defined?(LoginActivity)
       deleted_count = LoginActivity.where("created_at < ?", retention_period).delete_all
@@ -13,7 +13,7 @@ namespace :maintenance do
     else
       puts "LoginActivity model not found. Skipping."
     end
-    
+
     puts "Cleanup complete."
   end
 end

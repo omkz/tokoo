@@ -15,8 +15,8 @@
 #   STRIPE_WEBHOOK_SECRET=whsec_...
 
 if Rails.env.production?
-  Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key) || ENV['STRIPE_SECRET_KEY']
+  Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key) || ENV["STRIPE_SECRET_KEY"]
 else
   # Use test keys in development/test
-  Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key) || ENV['STRIPE_SECRET_KEY'] || 'sk_test_placeholder'
+  Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key) || ENV["STRIPE_SECRET_KEY"] || "sk_test_placeholder"
 end

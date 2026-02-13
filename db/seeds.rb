@@ -5,11 +5,11 @@ require "faker"
 puts "Cleaning database..."
 # Delete in reverse order of dependencies
 [
-  InventoryMovement, ProductEvent, ProductAnalytics, OrderCoupon, Coupon, 
-  Review, Wishlist, CartItem, Cart, OrderStatusHistory, OrderShipment, 
-  OrderPayment, OrderAddress, OrderItem, Order, Address, VariantOptionValue, 
-  ProductVariant, ProductOptionValue, ProductOption, ProductImage, 
-  ProductCategory, Product, Category, StoreSetting, TaxRate, ShippingMethod, 
+  InventoryMovement, ProductEvent, ProductAnalytics, OrderCoupon, Coupon,
+  Review, Wishlist, CartItem, Cart, OrderStatusHistory, OrderShipment,
+  OrderPayment, OrderAddress, OrderItem, Order, Address, VariantOptionValue,
+  ProductVariant, ProductOptionValue, ProductOption, ProductImage,
+  ProductCategory, Product, Category, StoreSetting, TaxRate, ShippingMethod,
   PaymentMethod, Currency, Session, WebauthnCredential, User
 ].each(&:delete_all)
 
@@ -45,9 +45,9 @@ PaymentMethod.create!([
 # Helper for attaching images
 def attach_image(product, image_url = nil)
   return if image_url.blank? && Rails.env.test? # Skip in test if no URL provided
-  
+
   image_url ||= "https://source.unsplash.com/random/600x600/?hiking,outdoor,gear"
-  
+
   begin
     file = URI.open(image_url)
     product_image = product.product_images.create!(primary: true, alt_text: product.name)
@@ -65,7 +65,7 @@ footwear = Category.create!(name: 'Footwear', slug: 'footwear')
 apparel = Category.create!(name: 'Apparel', slug: 'apparel')
 equipment = Category.create!(name: 'Equipment', slug: 'equipment')
 
-main_categories = [footwear, apparel, equipment]
+main_categories = [ footwear, apparel, equipment ]
 
 # Subcategories
 hiking_boots = Category.create!(name: 'Hiking Boots', slug: 'hiking-boots', parent: footwear)
@@ -77,7 +77,7 @@ puts "Creating detailed subcategories..."
 
 # Equipment Subcategories
 [
-  'Tents', 'Sleeping Bags', 'Trekking Poles', 'Hydration Packs', 
+  'Tents', 'Sleeping Bags', 'Trekking Poles', 'Hydration Packs',
   'Climbing Gear', 'Headlamps', 'Navigation', 'Camp Kitchen'
 ].each do |name|
   Category.create!(name: name, slug: name.parameterize, parent: equipment)
@@ -85,7 +85,7 @@ end
 
 # Apparel Subcategories
 [
-  'Base Layers', 'T-Shirts', 'Hiking Pants', 'Shorts', 
+  'Base Layers', 'T-Shirts', 'Hiking Pants', 'Shorts',
   'Rainwear', 'Gloves', 'Socks', 'Headwear'
 ].each do |name|
   Category.create!(name: name, slug: name.parameterize, parent: apparel)
@@ -93,7 +93,7 @@ end
 
 # Footwear Subcategories
 [
-  'Trail Running Shoes', 'Hiking Sandals', 'Mountaineering Boots', 
+  'Trail Running Shoes', 'Hiking Sandals', 'Mountaineering Boots',
   'Approach Shoes', 'Gaiters'
 ].each do |name|
   Category.create!(name: name, slug: name.parameterize, parent: footwear)
@@ -162,17 +162,17 @@ outdoor_images = [
 46.times do |i|
   category = Category.all.sample
   name = "#{Faker::Commerce.product_name} #{Faker::Science.element}"
-  
+
   product = Product.create!(
     name: name,
     description: Faker::Lorem.paragraph(sentence_count: 3),
     price: Faker::Commerce.price(range: 100_000..5_000_000).to_f,
     sku: "#{category.slug[0..2].upcase}-#{SecureRandom.hex(3).upcase}",
     stock_quantity: rand(0..100),
-    featured: [true, false].sample
+    featured: [ true, false ].sample
   )
   product.categories << category
-  
+
   # Pick a random image from our list to avoid too many API calls/slow downloads or use a specific topic
   image_url = outdoor_images.sample
   attach_image(product, image_url)
@@ -180,9 +180,9 @@ end
 
 puts "\nCreating Options for Apparel..."
 size_opt = ProductOption.create!(product: jacket, name: 'Size', position: 1)
-['S', 'M', 'L', 'XL'].each_with_index do |size, i|
+[ 'S', 'M', 'L', 'XL' ].each_with_index do |size, i|
   val = ProductOptionValue.create!(product_option: size_opt, value: size, position: i + 1)
-  
+
   # Create variant
   variant = ProductVariant.create!(
     product: jacket,
@@ -265,21 +265,21 @@ OrderAddress.create!(
 50.times do
   user = users.sample
   # 50% chance of guest order
-  is_guest = [true, false].sample
-  
-  status_options = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
+  is_guest = [ true, false ].sample
+
+  status_options = [ 'pending', 'confirmed', 'shipped', 'delivered', 'cancelled' ]
   status = status_options.sample
-  
+
   payment_status = case status
-                   when 'pending' then 'pending'
-                   when 'cancelled' then 'refunded'
-                   else 'paid'
-                   end
-  
+  when 'pending' then 'pending'
+  when 'cancelled' then 'refunded'
+  else 'paid'
+  end
+
   fulfillment_status = case status
-                       when 'shipped', 'delivered' then 'fulfilled'
-                       else 'unfulfilled'
-                       end
+  when 'shipped', 'delivered' then 'fulfilled'
+  else 'unfulfilled'
+  end
 
   order = Order.create!(
     user: is_guest ? nil : user,
@@ -290,9 +290,9 @@ OrderAddress.create!(
     payment_status: payment_status,
     fulfillment_status: fulfillment_status,
     subtotal: 0, # Will calculate
-    shipping_cost: [15000, 35000].sample,
+    shipping_cost: [ 15000, 35000 ].sample,
     total: 0, # Will calculate
-    confirmed_at: ['confirmed', 'shipped', 'delivered'].include?(status) ? Faker::Time.backward(days: 30) : nil,
+    confirmed_at: [ 'confirmed', 'shipped', 'delivered' ].include?(status) ? Faker::Time.backward(days: 30) : nil,
     delivered_at: status == 'delivered' ? Faker::Time.backward(days: 10) : nil
   )
 
@@ -302,7 +302,7 @@ OrderAddress.create!(
     product = products.sample
     quantity = rand(1..3)
     item_total = product.price * quantity
-    
+
     OrderItem.create!(
       order: order,
       product: product,
@@ -314,7 +314,7 @@ OrderAddress.create!(
     )
     subtotal += item_total
   end
-  
+
   order.update!(
     subtotal: subtotal,
     total: subtotal + order.shipping_cost
@@ -331,7 +331,7 @@ OrderAddress.create!(
     postal_code: Faker::Address.zip_code,
     country: 'ID'
   )
-  
+
   print "."
 end
 

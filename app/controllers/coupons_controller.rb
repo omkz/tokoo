@@ -3,7 +3,7 @@ class CouponsController < ApplicationController
   def apply
     @code = params[:code]
     @subtotal = current_cart.total_price # or from checkout params
-    
+
     result = ApplyCouponService.new(
       code: @code,
       subtotal: @subtotal,

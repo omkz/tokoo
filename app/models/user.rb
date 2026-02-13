@@ -1,12 +1,12 @@
 class User < ApplicationRecord
-  has_paper_trail ignore: [:password_digest, :recovery_password_digest, :otp_secret, :webauthn_id]
-  
+  has_paper_trail ignore: [ :password_digest, :recovery_password_digest, :otp_secret, :webauthn_id ]
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :orders, dependent: :nullify
   has_many :addresses, dependent: :destroy
   has_many :carts, dependent: :nullify
-  
+
   scope :admin, -> { where(admin: true) }
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

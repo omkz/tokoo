@@ -9,9 +9,9 @@ class ShippingMethod < ApplicationRecord
 
   def calculate_cost(weight = 0, distance = 0)
     case pricing_type
-    when 'flat_rate'
+    when "flat_rate"
       base_price
-    when 'per_kg'
+    when "per_kg"
       base_price + (weight * price_per_kg.to_f)
     else
       base_price

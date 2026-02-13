@@ -4,8 +4,8 @@ class Address < ApplicationRecord
   validates :address_type, :full_name, :address_line1, :city, :country, presence: true
   validates :address_type, inclusion: { in: %w[shipping billing] }
 
-  scope :shipping, -> { where(address_type: 'shipping') }
-  scope :billing, -> { where(address_type: 'billing') }
+  scope :shipping, -> { where(address_type: "shipping") }
+  scope :billing, -> { where(address_type: "billing") }
   scope :default, -> { where(is_default: true) }
 
   before_save :ensure_single_default, if: :is_default?

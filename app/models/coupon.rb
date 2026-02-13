@@ -6,11 +6,11 @@ class Coupon < ApplicationRecord
   validates :code, uniqueness: true
 
   enum :discount_type, {
-    percentage: 'percentage',
-    fixed_amount: 'fixed_amount'
+    percentage: "percentage",
+    fixed_amount: "fixed_amount"
   }
 
-  scope :active, -> { where(active: true).where('starts_at <= ? AND (expires_at IS NULL OR expires_at >= ?)', Time.current, Time.current) }
+  scope :active, -> { where(active: true).where("starts_at <= ? AND (expires_at IS NULL OR expires_at >= ?)", Time.current, Time.current) }
 
   def valid_for?(order)
     return false unless active?

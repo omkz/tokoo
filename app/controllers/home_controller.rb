@@ -3,16 +3,16 @@ class HomeController < ApplicationController
 
   def index
     @categories = Category.active.main.ordered
-    
+
     scope = Product.active
-    
+
     if params[:category].present?
       @category = Category.find_by(slug: params[:category])
       if @category
         scope = scope.joins(:categories).where(categories: { id: Category.tree_ids_for(@category) })
       end
     end
-    
+
     @products = scope.order(created_at: :desc).page(params[:page]).per(12)
 
     set_meta_tags(

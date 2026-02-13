@@ -1,7 +1,7 @@
 class Category < ApplicationRecord
-  belongs_to :parent, class_name: 'Category', optional: true
-  has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id', dependent: :destroy
-  
+  belongs_to :parent, class_name: "Category", optional: true
+  has_many :subcategories, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
+
   has_many :product_categories, dependent: :destroy
   has_many :products, through: :product_categories
 
@@ -11,10 +11,10 @@ class Category < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :main, -> { where(parent_id: nil) }
   scope :ordered, -> { order(position: :asc) }
-  
+
   def self.tree_ids_for(category)
     return [] unless category
-    [category.id] + category.subcategories.active.pluck(:id)
+    [ category.id ] + category.subcategories.active.pluck(:id)
   end
 
   before_validation :generate_slug, if: -> { slug.blank? && name.present? }

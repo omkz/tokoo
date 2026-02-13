@@ -1,6 +1,6 @@
 class AddressesController < ApplicationController
   before_action :require_authentication
-  before_action :set_address, only: [:edit, :update, :destroy]
+  before_action :set_address, only: [ :edit, :update, :destroy ]
 
   def index
     @addresses = current_user.addresses.order(is_default: :desc)
@@ -12,7 +12,7 @@ class AddressesController < ApplicationController
 
   def create
     @address = current_user.addresses.build(address_params)
-    
+
     if @address.save
       if @address.is_default?
         current_user.addresses.where.not(id: @address.id).update_all(is_default: false)

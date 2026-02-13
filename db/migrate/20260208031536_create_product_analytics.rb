@@ -11,7 +11,7 @@ class CreateProductAnalytics < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :product_analytics, [:product_id, :date], unique: true
+    add_index :product_analytics, [ :product_id, :date ], unique: true
     add_index :product_analytics, :date
   end
 end

@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   include Authentication
-  
+
   before_action :set_paper_trail_whodunnit
-  
+
   helper_method :current_user, :current_cart, :display_meta_tags, :set_meta_tags
-  
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def display_meta_tags
     tags = @meta_tags || {}
-    
+
     # Defaults from StoreSetting
     title = tags[:title] || StoreSetting.store_name
     description = tags[:description] || StoreSetting.meta_description

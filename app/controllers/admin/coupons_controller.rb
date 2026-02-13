@@ -1,6 +1,6 @@
 module Admin
   class CouponsController < BaseController
-    before_action :set_coupon, only: [:edit, :update, :destroy]
+    before_action :set_coupon, only: [ :edit, :update, :destroy ]
 
     def index
       @coupons = Coupon.order(created_at: :desc).page(params[:page]).per(20)
@@ -13,7 +13,7 @@ module Admin
     def create
       @coupon = Coupon.new(coupon_params)
       if @coupon.save
-        redirect_to admin_coupons_path, notice: 'Coupon was successfully created.'
+        redirect_to admin_coupons_path, notice: "Coupon was successfully created."
       else
         render :new, status: :unprocessable_entity
       end
@@ -24,7 +24,7 @@ module Admin
 
     def update
       if @coupon.update(coupon_params)
-        redirect_to admin_coupons_path, notice: 'Coupon was successfully updated.'
+        redirect_to admin_coupons_path, notice: "Coupon was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -32,7 +32,7 @@ module Admin
 
     def destroy
       @coupon.destroy
-      redirect_to admin_coupons_path, notice: 'Coupon was successfully deleted.'
+      redirect_to admin_coupons_path, notice: "Coupon was successfully deleted."
     end
 
     private

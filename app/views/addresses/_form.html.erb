@@ -12,8 +12,8 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div class="md:col-span-2">
-      <%= f.label :address_type, "Address Label", class: "block text-sm font-medium text-slate-700 mb-1" %>
-      <%= f.select :address_type, ['Home', 'Office', 'Other'], {}, class: "w-full md:w-1/2 rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :address_type, "Address Type", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.select :address_type, [['Shipping Address', 'shipping'], ['Billing Address', 'billing']], {}, class: "w-full md:w-1/2 rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
     </div>
 
     <div>

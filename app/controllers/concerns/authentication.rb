@@ -43,7 +43,7 @@ module Authentication
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
-        
+
         LoginActivity.create!(
           user: user,
           identity: user.email_address,

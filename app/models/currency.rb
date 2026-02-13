@@ -6,6 +6,6 @@ class Currency < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def self.default
-    find_by(code: 'IDR') || first
+    find_by(code: "IDR") || first
   end
 end

@@ -7,6 +7,6 @@ class CreateOrderCoupons < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :order_coupons, [:order_id, :coupon_id], unique: true
+    add_index :order_coupons, [ :order_id, :coupon_id ], unique: true
   end
 end

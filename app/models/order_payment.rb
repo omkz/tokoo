@@ -6,10 +6,10 @@ class OrderPayment < ApplicationRecord
   validates :amount, numericality: { greater_than: 0 }
 
   enum :status, {
-    pending: 'pending',
-    authorized: 'authorized',
-    paid: 'paid',
-    failed: 'failed',
-    refunded: 'refunded'
-  }, default: 'pending'
+    pending: "pending",
+    authorized: "authorized",
+    paid: "paid",
+    failed: "failed",
+    refunded: "refunded"
+  }, default: "pending"
 end

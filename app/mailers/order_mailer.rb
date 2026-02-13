@@ -4,7 +4,7 @@ class OrderMailer < ApplicationMailer
   def confirmation_email(order)
     @order = order
     @store_name = StoreSetting.store_name
-    
+
     mail(
       to: @order.customer_email,
       from: "#{StoreSetting.store_name} <#{StoreSetting.store_email}>",
@@ -16,7 +16,7 @@ class OrderMailer < ApplicationMailer
     @order = order
     @store_name = StoreSetting.store_name
     @bank_details = StoreSetting.get("bank_transfer_details")
-    
+
     mail(
       to: @order.customer_email,
       from: "#{StoreSetting.store_name} <#{StoreSetting.store_email}>",
@@ -27,7 +27,7 @@ class OrderMailer < ApplicationMailer
   def shipping_update_email(order)
     @order = order
     @store_name = StoreSetting.store_name
-    
+
     mail(
       to: @order.customer_email,
       from: "#{StoreSetting.store_name} <#{StoreSetting.store_email}>",

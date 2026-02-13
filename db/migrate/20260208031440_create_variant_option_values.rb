@@ -6,7 +6,7 @@ class CreateVariantOptionValues < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :variant_option_values, [:product_variant_id, :product_option_value_id], 
+    add_index :variant_option_values, [ :product_variant_id, :product_option_value_id ],
               unique: true, name: 'index_variant_option_values_uniqueness'
   end
 end
