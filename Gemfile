@@ -77,4 +77,4 @@ gem "faker", "~> 3.6", groups: [ :development, :test ]
 
 gem "paper_trail", "~> 17.0"
 
-gem "country_select", "~> 9.0"
+gem "country_select", "~> 11.0"
