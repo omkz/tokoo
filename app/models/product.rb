@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_paper_trail
-  
+
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
   has_many :product_images, -> { order(position: :asc) }, dependent: :destroy
@@ -13,7 +13,7 @@ class Product < ApplicationRecord
   has_many :product_analytics, dependent: :destroy
   has_many :product_events, dependent: :destroy
 
-  accepts_nested_attributes_for :product_images, allow_destroy: true, reject_if: proc { |attributes| attributes['image'].blank? && attributes['id'].blank? }
+  accepts_nested_attributes_for :product_images, allow_destroy: true, reject_if: proc { |attributes| attributes["image"].blank? && attributes["id"].blank? }
   accepts_nested_attributes_for :product_options, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :product_variants, allow_destroy: true, reject_if: :all_blank
 
@@ -42,6 +42,26 @@ class Product < ApplicationRecord
     return nil unless img&.image&.attached?
 
     Rails.application.routes.url_helpers.rails_blob_url(img.image, only_path: true)
+  end
+
+  # Inventory helper methods
+  def low_stock?
+    return false unless track_inventory
+    stock_quantity <= low_stock_threshold
+  end
+
+  def out_of_stock?
+    return false unless track_inventory
+    stock_quantity <= 0
+  end
+
+  def available_stock
+    track_inventory ? stock_quantity : Float::INFINITY
+  end
+
+  def can_fulfill?(quantity)
+    return true unless track_inventory
+    stock_quantity >= quantity
   end
 
   private

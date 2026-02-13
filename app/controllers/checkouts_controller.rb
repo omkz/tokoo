@@ -8,7 +8,7 @@ class CheckoutsController < ApplicationController
     @shipping_address = @order.order_addresses.build(address_type: "shipping")
     @billing_address = @order.order_addresses.build(address_type: "billing")
     @shipping_methods = ShippingMethod.where(active: true)
-    
+
     # Check for applied coupon
     @discount_amount = 0
     if session[:applied_coupon_id]
@@ -79,6 +79,32 @@ class CheckoutsController < ApplicationController
     end
 
     @order.total = @order.subtotal + shipping_cost + tax_amount - @discount_amount
+
+    # Validate stock availability before creating order
+    insufficient_items = []
+    @cart.cart_items.each do |cart_item|
+      stockable = cart_item.product_variant || cart_item.product
+      if stockable.respond_to?(:track_inventory) && stockable.track_inventory
+        unless stockable.can_fulfill?(cart_item.quantity)
+          insufficient_items << {
+            name: cart_item.product.name,
+            variant: cart_item.product_variant&.name,
+            requested: cart_item.quantity,
+            available: stockable.stock_quantity
+          }
+        end
+      end
+    end
+
+    if insufficient_items.any?
+      flash.now[:alert] = "Some items in your cart are out of stock or have insufficient quantity."
+      @insufficient_items = insufficient_items
+      @shipping_methods = ShippingMethod.where(active: true)
+      @shipping_address = @order.order_addresses.find { |a| a.address_type == "shipping" } || @order.order_addresses.build(address_type: "shipping")
+      @billing_address = @order.order_addresses.find { |a| a.address_type == "billing" } || @order.order_addresses.build(address_type: "billing")
+      render :new, status: :unprocessable_entity
+      return
+    end
 
     if @order.save
       # Increment coupon usage count
