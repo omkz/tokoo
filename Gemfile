@@ -71,7 +71,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "stripe", "~> 18.3"
+gem "stripe", "~> 18.4"
 
 gem "faker", "~> 3.6", groups: [ :development, :test ]
 
